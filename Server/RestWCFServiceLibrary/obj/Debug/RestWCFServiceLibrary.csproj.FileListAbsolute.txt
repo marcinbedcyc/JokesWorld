@@ -1,0 +1,12 @@
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll.config
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.pdb
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.csprojResolveAssemblyReference.cache
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.dll
+C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.pdb
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll.config
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.pdb
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.csprojAssemblyReference.cache
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.dll
+C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.pdb

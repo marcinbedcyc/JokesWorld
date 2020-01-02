@@ -1,0 +1,77 @@
+﻿Installing assembly 'C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe'.
+Affected parameters are:
+   i = 
+   logfile = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.InstallLog
+   assemblypath = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe
+   logtoconsole = 
+Installing service Demo...
+Service Demo has been successfully installed.
+Creating EventLog source Demo in log Application...
+Committing assembly 'C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe'.
+Affected parameters are:
+   i = 
+   logfile = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.InstallLog
+   assemblypath = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe
+   logtoconsole = 
+Uninstalling assembly 'C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.InstallLog
+   assemblypath = C:\PROJECT\STAR-P\WcfRestfulWithWindowsHostDemo\WindowsService1\bin\Debug\WindowsService1.exe
+Removing EventLog source Demo.
+Service Demo is being removed from the system...
+Service Demo was successfully removed from the system.
+Attempt to stop service Demo.
+Instalowanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Trwa instalowanie usługi Demo...
+Usługa Demo została zainstalowana pomyślnie.
+Trwa tworzenie źródła EventLog Demo w dzienniku Application...
+Zatwierdzanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Odinstalowywanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Usuwanie źródła EventLog Demo.
+Trwa usuwanie usługi Demo z systemu...
+Usługa Demo została pomyślnie usunięta z systemu.
+Odinstalowywanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Usuwanie źródła EventLog Demo.
+Ostrzeżenie: źródło Demo nie jest zarejestrowane na komputerze lokalnym.
+Trwa usuwanie usługi Demo z systemu...
+Podczas dezinstalacji instalatora System.ServiceProcess.ServiceInstaller wystąpił wyjątek.
+System.ComponentModel.Win32Exception: Określona usługa nie istnieje jako usługa zainstalowana
+Podczas odinstalowywania wystąpił wyjątek. Wyjątek ten zostanie zignorowany, a dezinstalacja będzie kontynuowana. Jednak po ukończeniu dezinstalacji aplikacja może nie być w pełni odinstalowana.
+Instalowanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Trwa instalowanie usługi JokesWorldServer...
+Usługa JokesWorldServer została zainstalowana pomyślnie.
+Trwa tworzenie źródła EventLog JokesWorldServer w dzienniku Application...
+Zatwierdzanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Odinstalowywanie zestawu 'C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   assemblypath = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.exe
+   logfile = C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\WindowsService1\bin\Debug\WindowsService1.InstallLog
+Usuwanie źródła EventLog JokesWorldServer.
+Trwa usuwanie usługi JokesWorldServer z systemu...
+Usługa JokesWorldServer została pomyślnie usunięta z systemu.
