@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbConnection.ORMs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,12 +16,25 @@ namespace DbConnection
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        [ForeignKey("AuthorFK")]
         public User Author { get; set; }
         public int AuthorFK { get; set; }
 
-        [ForeignKey("JokeFK")]
         public Joke Joke { get; set; }
         public int JokeFK { get; set; }
+
+        public CommentORM ToORM()
+        {
+            CommentORM commentORM = new CommentORM
+            {
+                Id = this.Id,
+                Content = this.Content,
+                CreatedDate = this.CreatedDate,
+                Author = this.Author.ToORM(),
+                AuthorFK = this.AuthorFK,
+                Joke = this.Joke.ToORM(),
+                JokeFK = this.JokeFK
+            };
+            return commentORM;
+        }
     }
 }

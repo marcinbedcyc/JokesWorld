@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbConnection.ORMs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,9 +20,21 @@ namespace DbConnection
         public string Nickname { get; set; }
         [Required]
         public string Password { get; set; }
-
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Joke> Jokes { get; set; }
 
+        public UserORM ToORM()
+        {
+            UserORM userORM = new UserORM
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Surname = this.Surname,
+                Email = this.Email,
+                Password = this.Password,
+                Nickname = this.Password
+            };
+            return userORM;
+        }
     }
 }
