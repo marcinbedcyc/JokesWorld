@@ -1,4 +1,7 @@
 .vs/
+Server/.vs/
+Server/DbConnection/.vs/
+ClientApp/.vs/
 
 # Build results
 [Dd]ebug/
