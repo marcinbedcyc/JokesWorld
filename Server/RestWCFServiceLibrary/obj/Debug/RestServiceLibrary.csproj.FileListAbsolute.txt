@@ -1,5 +1,0 @@
-C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll.config
-C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.dll
-C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\bin\Debug\RestWCFServiceLibrary.pdb
-C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.dll
-C:\Users\Marcin\Downloads\WcfRestfulWithWindowsHostDemo_v1\RestWCFServiceLibrary\obj\Debug\RestWCFServiceLibrary.pdb
