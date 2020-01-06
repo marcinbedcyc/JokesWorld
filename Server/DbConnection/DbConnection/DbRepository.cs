@@ -7,11 +7,11 @@ namespace DbConnection
 {
     public class DbRepository
     {
-        private MyDbContext context;
+        private readonly MyDbContext context;
 
         public DbRepository() { context = new MyDbContext(); }
 
-        public User GetUserWithNicknameAndPassword(string nickname, string password)
+        public User GetUserByNicknameAndPassword(string nickname, string password)
         {
             try
             {
@@ -27,16 +27,29 @@ namespace DbConnection
             }
         }
 
+        public User GetUserByNickname(string nickname)
+        {
+            try
+            {
+                User user = context.Users.Where(u => u.Nickname == nickname).Single();
+                return user;
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
         public bool AddUser(User user)
         {
             try
-            { 
+            {
                 context.Users.Where(u => u.Nickname == user.Nickname).Single();
                 context.Users.Where(u => u.Email == user.Email).Single();
                 return false;
             }
             catch (System.InvalidOperationException)
-            { 
+            {
                 context.Users.Add(user);
                 context.SaveChanges();
                 return true;
@@ -65,6 +78,104 @@ namespace DbConnection
             return true;
         }
 
+        public bool UpdateUser(User newUser)
+        {
+            try
+            {
+                User oldUser = context.Users.Find(newUser.Id);
+                oldUser.Name = newUser.Name;
+                oldUser.Surname = newUser.Surname;
+                oldUser.Nickname = newUser.Nickname;
+                oldUser.Email = newUser.Email;
+                oldUser.Password = newUser.Password;
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateJoke(Joke newJoke)
+        {
+            try
+            {
+                Joke oldJoke = context.Jokes.Find(newJoke.Id);
+                oldJoke.Title = newJoke.Title;
+                oldJoke.Content = newJoke.Content;
+                oldJoke.CreatedDate = newJoke.CreatedDate;
+                oldJoke.Author = newJoke.Author;
+                oldJoke.AuthorFK = newJoke.AuthorFK;
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateComment(Comment newComment)
+        {
+            try
+            {
+                Comment oldComment = context.Comments.Find(newComment.Id);
+                oldComment.Content = newComment.Content;
+                oldComment.CreatedDate = newComment.CreatedDate;
+                oldComment.Author = newComment.Author;
+                oldComment.AuthorFK = newComment.AuthorFK;
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            try
+            {
+                context.Remove(context.Users.Find(userId));
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteJoke(int jokeId)
+        {
+            try
+            {
+                context.Remove(context.Jokes.Find(jokeId));
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteComment(int commentId)
+        {
+            try
+            {
+                context.Remove(context.Comments.Find(commentId));
+                context.SaveChanges();
+                return true;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                return false;
+            }
+        }
+
         public List<Joke> GetAllJokes()
         {
             return context.Jokes.ToList();
@@ -72,17 +183,17 @@ namespace DbConnection
 
         public List<Joke> GetUsersJokes(int userId)
         {
-            return context.Users.Find(userId).Jokes.ToList();
+            return context.Jokes.Where(j => j.AuthorFK == userId).ToList();
         }
 
         public List<Comment> GetUsersComments(int userId)
         {
-            return context.Users.Find(userId).Comments.ToList();
+            return context.Comments.Where(c => c.AuthorFK == userId).ToList();
         }
 
         public List<Comment> GetJokesComments(int jokeId)
         {
-            return context.Jokes.Find(jokeId).Comments.ToList();
+            return context.Comments.Where(c => c.JokeFK == jokeId).ToList();
         }
 
         public List<Joke> GetJokesAbout(string searchText)
@@ -99,8 +210,57 @@ namespace DbConnection
 
         public Joke GetRandomJoke()
         {
-            return context.Jokes.Single(j => j.Title.Contains("jeżyku"));
+            var jokes = context.Jokes.ToArray();
+            return jokes[new Random().Next(jokes.Length)];
         }
 
+        public List<User> GetAllUsers()
+        {
+            return context.Users.ToList();
+        }
+
+        public List<Comment> GetAllComments()
+        {
+            return context.Comments.ToList();
+        }
+
+        public User GetUserById(int userId)
+        {
+            try
+            {
+                User user = context.Users.Find(userId);
+                return user;
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
+        public Joke GetJokeById(int jokeId)
+        {
+            try
+            {
+                Joke joke = context.Jokes.Find(jokeId);
+                return joke;
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
+        public Comment GetCommentById(int commentId)
+        {
+            try
+            {
+                Comment comment = context.Comments.Find(commentId);
+                return comment;
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
+        }
     }
 }
