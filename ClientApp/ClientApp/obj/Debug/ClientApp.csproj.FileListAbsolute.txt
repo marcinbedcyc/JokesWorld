@@ -12,3 +12,8 @@ C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\obj\Debug\ClientApp.Prope
 C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\obj\Debug\ClientApp.csproj.GenerateResource.cache
 C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\obj\Debug\ClientApp.exe
 C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\obj\Debug\ClientApp.pdb
+C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\obj\Debug\ClientApp.csproj.CopyComplete
+C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\bin\Debug\BCrypt.Net.dll
+C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\bin\Debug\BCrypt.Net.pdb
+C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\bin\Debug\BCrypt.Net.xml
