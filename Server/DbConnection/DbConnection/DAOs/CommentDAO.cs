@@ -9,9 +9,7 @@ namespace DbConnection.DAOs
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
-        public UserDAO Author { get; set; }
         public int AuthorFK { get; set; }
-        public JokeDAO Joke { get; set; }
         public int JokeFK { get; set; }
 
         public Comment ToModel()
@@ -21,9 +19,9 @@ namespace DbConnection.DAOs
                 Id = this.Id,
                 Content = this.Content,
                 CreatedDate = this.CreatedDate,
-                Author = this.Author.ToModel(),
+                Author = DbRepository.GetUserById(this.AuthorFK),
                 AuthorFK = this.AuthorFK,
-                Joke = this.Joke.ToModel(),
+                Joke = DbRepository.GetJokeById(this.JokeFK),
                 JokeFK = this.JokeFK
             };
             return comment;

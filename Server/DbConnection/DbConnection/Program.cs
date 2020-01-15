@@ -2,26 +2,19 @@
 
 namespace DbConnection
 {
-    class Program
+    public class Program
     {
-        static void Main()
+        public static void Main()
         {
             AddSomeUsers();
             User maricnbedcyc = DbRepository.GetUserByNicknameAndPassword("marcinbedcyc", "password");
             User wlepciax = DbRepository.GetUserByNicknameAndPassword("wlepciax", "password");
-            //Console.WriteLine(maricnbedcyc.Id);
-            //Console.WriteLine(wlepciax.Id);
-            //AddSomeJokes(repo, ref maricnbedcyc);
-            //AddSomeJokes2(repo, ref wlepciax);
+            Console.WriteLine(maricnbedcyc.Id);
+            Console.WriteLine(wlepciax.Id);
+            AddSomeJokes(ref maricnbedcyc);
+            AddSomeJokes2(ref wlepciax);
             Joke joke = DbRepository.GetRandomJoke();
             AddSomeComment(ref joke, ref maricnbedcyc);
-
-            //Comment comment = new Comment();
-            //comment.Content = "Dobre! :)";
-            //comment.Author = maricnbedcyc;
-            //comment.Joke = joke;
-            //comment.CreatedDate = DateTime.Now;
-            //repo.AddComment(comment);
 
             //foreach (Joke j in repo.GetJokesAbout("Blondynk"))
             //foreach (Joke j in repo.GetJokesAbout("b"))

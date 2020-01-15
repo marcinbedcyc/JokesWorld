@@ -12,7 +12,7 @@ namespace DbConnection
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseNpgsql("Server=192.168.99.100;Port=5432;Database=jokesdb;User id=marcinbedcyc;Password=password");
+            => options.UseSqlite("Data Source=mydb.db");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

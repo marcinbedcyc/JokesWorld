@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DbConnection.Migrations
 {
@@ -13,11 +12,12 @@ namespace DbConnection.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Nickname = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: false),
+                    Nickname = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,21 +25,21 @@ namespace DbConnection.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Joke",
+                name: "Jokes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Title = table.Column<string>(nullable: true),
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     AuthorFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Joke", x => x.Id);
+                    table.PrimaryKey("PK_Jokes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Joke_Users_AuthorFK",
+                        name: "FK_Jokes_Users_AuthorFK",
                         column: x => x.AuthorFK,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -47,56 +47,74 @@ namespace DbConnection.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Content = table.Column<string>(nullable: true),
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     AuthorFK = table.Column<int>(nullable: false),
                     JokeFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Users_AuthorFK",
+                        name: "FK_Comments_Users_AuthorFK",
                         column: x => x.AuthorFK,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Joke_JokeFK",
+                        name: "FK_Comments_Jokes_JokeFK",
                         column: x => x.JokeFK,
-                        principalTable: "Joke",
+                        principalTable: "Jokes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_AuthorFK",
-                table: "Comment",
+                name: "IX_Comments_AuthorFK",
+                table: "Comments",
                 column: "AuthorFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_JokeFK",
-                table: "Comment",
+                name: "IX_Comments_JokeFK",
+                table: "Comments",
                 column: "JokeFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Joke_AuthorFK",
-                table: "Joke",
+                name: "IX_Jokes_AuthorFK",
+                table: "Jokes",
                 column: "AuthorFK");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jokes_Content",
+                table: "Jokes",
+                column: "Content",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Nickname",
+                table: "Users",
+                column: "Nickname",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Joke");
+                name: "Jokes");
 
             migrationBuilder.DropTable(
                 name: "Users");

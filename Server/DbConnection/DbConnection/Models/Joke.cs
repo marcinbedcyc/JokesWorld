@@ -30,7 +30,6 @@ namespace DbConnection
                 Title = this.Title,
                 Content = this.Content,
                 CreatedDate = this.CreatedDate,
-                Author = DbRepository.GetUserById(this.AuthorFK).ToDAO(),
                 AuthorFK = this.AuthorFK
             };
             return jokeDAO;
