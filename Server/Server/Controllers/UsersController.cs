@@ -13,7 +13,7 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-       
+
 
         private readonly ILogger<UsersController> _logger;
 
@@ -22,13 +22,19 @@ namespace Server.Controllers
             _logger = logger;
         }
 
+        [HttpGet("test")]
+        public void Test(string nickname)
+        {
+            DbConnection.Program.Main();
+        }
+
         [HttpGet("nickname/{nickname}")]
         public UserDAO GetUserByNickname(string nickname)
         {
             return DbRepository.GetUserByNickname(nickname).ToDAO();
         }
 
-        [HttpGet("id/{id}/comments")]
+        [HttpGet("{id}/comments")]
         public List<CommentDAO> GetUsersComment(int id)
         {
             List<CommentDAO> comments = new List<CommentDAO>();
@@ -37,7 +43,7 @@ namespace Server.Controllers
             return comments;
         }
 
-        [HttpGet("id/{id}/jokes")]
+        [HttpGet("{id}/jokes")]
         public List<JokeDAO> GetUsersJokes(int id)
         {
             List<JokeDAO> jokes = new List<JokeDAO>();
@@ -46,17 +52,11 @@ namespace Server.Controllers
             return jokes;
         }
 
-        [HttpGet("id/{id}")]
-        public UserDAO GetUserByNickname(int id)
+        [HttpGet("{id}")]
+        public UserDAO GetUserById(int id)
         {
             return DbRepository.GetUserById(id).ToDAO();
         }
-
-        //[HttpGet("{nickname}/{password}")]
-        //public UserDAO GetUserByNicknameAndPassword(string nickname, string password)
-        //{
-        //    return DbRepository.GetUserByNicknameAndPassword(nickname, password).ToDAO();
-        //}
 
         [HttpGet]
         public List<UserDAO> GetAllUsers()
@@ -65,6 +65,34 @@ namespace Server.Controllers
             foreach (User u in DbRepository.GetAllUsers())
                 users.Add(u.ToDAO());
             return users;
+        }
+
+        [HttpDelete("{id}")]
+        public string DeleteUser(int id)
+        {
+            if (DbRepository.DeleteUser(id))
+                return $"User id: {id} deleted";
+            else
+                return $"User id: {id} doesn't exist";
+        }
+
+        [HttpPut("{id}")]
+        public string UpdateUser(int id, [FromBody]UserDAO user)
+        {
+            user.Id = id;
+            if (DbRepository.UpdateUser(user.ToModel()))
+                return $"User id: {id} updated";
+            else
+                return $"User id: {id} doesn't exist";
+        }
+
+        [HttpPost]
+        public string CreateUser([FromBody]UserDAO user)
+        {
+            if (DbRepository.AddUser(user.ToModel()))
+                return "User created";
+            else
+                return "Some errors";
         }
     }
 }

@@ -21,10 +21,47 @@ namespace Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public string Get()
+        [HttpGet("{id}")]
+        public CommentDAO GetCommentById(int id)
         {
-            return "Hello World!";
+            return DbRepository.GetCommentById(id).ToDAO();
+        }
+
+        [HttpGet]
+        public List<CommentDAO> GetAllComments()
+        {
+            List<CommentDAO> comments = new List<CommentDAO>();
+            foreach (Comment c in DbRepository.GetAllComments())
+                comments.Add(c.ToDAO());
+            return comments;
+        }
+
+        [HttpDelete("{id}")]
+        public string DeleteComment(int id)
+        {
+            if (DbRepository.DeleteComment(id))
+                return $"Comment id: {id} deleted";
+            else
+                return $"Comment id: {id} doesn't exist";
+        }
+
+        [HttpPut("{id}")]
+        public string UpdateComment(int id, [FromBody]CommentDAO comment)
+        {
+            comment.Id = id;
+            if (DbRepository.UpdateComment(comment.ToModel()))
+                return $"Comment id: {id} updated";
+            else
+                return $"Comment id: {id} doesn't exist";
+        }
+
+        [HttpPost]
+        public string CreateComment([FromBody]CommentDAO comment)
+        {
+            if (DbRepository.AddComment(comment.ToModel()))
+                return "Comment created";
+            else
+                return "Some errors";
         }
     }
 }
