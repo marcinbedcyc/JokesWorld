@@ -1,5 +1,4 @@
-﻿using DbConnection.DAOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,19 +21,5 @@ namespace DbConnection
         public string Password { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Joke> Jokes { get; set; }
-
-        public UserDAO ToDAO()
-        {
-            UserDAO userDAO = new UserDAO
-            {
-                Id = this.Id,
-                Name = this.Name,
-                Surname = this.Surname,
-                Email = this.Email,
-                Password = this.Password,
-                Nickname = this.Nickname
-            };
-            return userDAO;
-        }
     }
 }

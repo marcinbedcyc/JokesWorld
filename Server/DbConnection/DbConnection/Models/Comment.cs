@@ -1,5 +1,4 @@
-﻿using DbConnection.DAOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,18 +20,5 @@ namespace DbConnection
 
         public Joke Joke { get; set; }
         public int JokeFK { get; set; }
-
-        public CommentDAO ToDAO()
-        {
-            CommentDAO commentDAO = new CommentDAO
-            {
-                Id = this.Id,
-                Content = this.Content,
-                CreatedDate = this.CreatedDate,
-                AuthorFK = this.AuthorFK,
-                JokeFK = this.JokeFK
-            };
-            return commentDAO;
-        }
     }
 }
