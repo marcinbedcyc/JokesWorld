@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,14 +10,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 
 namespace ClientApp
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -26,41 +24,41 @@ namespace ClientApp
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void PowerButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/users/nickname/" + nicknameField.Text);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                User account = JsonConvert.DeserializeObject<User>(responseBody);
-
-                Console.WriteLine(account.Password);
-                // james@example.com
-                if(BCrypt.Net.BCrypt.Verify(passwordField.Password, account.Password))
-                    status.Content = "Correct";
-                else
-                    status.Content = "Wrong";
-
-
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", ex.Message);
-            }
+            Application.Current.Shutdown();
         }
 
-        public class User
+        private void TitleBarGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Surname { get; set; }
-            public string Email { get; set; }
-            public string Nickname { get; set; }
-            public string Password { get; set; }
+            DragMove();
+        }
+
+        private void Logout_Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow newWindow1 = new LoginWindow();
+            newWindow1.Show();
+            this.Close();
+        }
+
+        private void UsersButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Source = new Uri("pages\\UsersPage.xaml", UriKind.Relative);
+        }
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Source = new Uri("pages\\StartPage.xaml", UriKind.Relative);
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Source = new Uri("pages\\SettingsPage.xaml", UriKind.Relative);
+        }
+
+        private void JokesButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Source = new Uri("pages\\JokesPage.xaml", UriKind.Relative);
         }
     }
 }

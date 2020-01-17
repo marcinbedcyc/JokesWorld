@@ -3,71 +3,75 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:local="clr-namespace:ClientApp"
-        mc:Ignorable="d"
-        ResizeMode="NoResize"
-        Title="JokesWorld" Height="400" Width="695">
+        mc:Ignorable="d" Height="600" Width="1024" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="2" Margin="0.2,0,-0.4,0" Source="19523_en_1.jpg" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1.75"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Rectangle Grid.Column="2" Opacity="0.5">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0.224"/>
-                    <GradientStop Color="#FF575656" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Grid Grid.Column="0" Grid.RowSpan="100">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox">
-                    <GradientStop Color="#FF6FB4E5"/>
-                    <GradientStop Color="#FFF776A9" Offset="0.977"/>
-                    <GradientStop Color="#FFA8BBCE" Offset="0.293"/>
-                    <GradientStop Color="#FFDCB1CE" Offset="0.626"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FF66BCDC" Offset="0.49"/>
+                    <GradientStop Color="#FFD371D7" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.01"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            
-            <Grid Grid.Row="0" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Nickname" HorizontalAlignment="Right" Margin="0" Grid.Row="1" VerticalAlignment="Top"/>
-                <TextBox x:Name="nicknameField" Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" MinWidth="100" Background="Transparent" BorderBrush="Black" SelectionBrush="Black" FontSize="15" AutomationProperties.HelpText="Enter your password"/>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Password" HorizontalAlignment="Right" Margin="0" Grid.Row="1" VerticalAlignment="Top"/>
-                <PasswordBox x:Name="passwordField" Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" MinWidth="100" Background="Transparent" BorderBrush="Black" SelectionBrush="Black" FontSize="15" AutomationProperties.HelpText="Enter your password"/>
-                <Label x:Name="status" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="23,95,0,0" VerticalAlignment="Top"/>
-            </Grid>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="156,45.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <Grid Background="#00A46FE4">
+                <TextBlock Text="Jokes World" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Ink Free" Foreground="Black" FontSize="34" FontWeight="Bold" TextDecorations="{x:Null}"/>
+            </Grid>
+
+            <StackPanel Grid.Row="1">
+                <Button  x:Name="HomeButton" Background="#CC04126C" BorderBrush="#FF04126C" Margin="10,3" Click="HomeButton_Click">
+                    <Grid Width="175" Height="40">
+                        <materialDesign:PackIcon Kind="Home" VerticalAlignment="Center" Height="22" Margin="0,10,0,8" Width="32" Foreground="White"/>
+                        <TextBlock Text="GŁÓWNA" FontFamily="Malgun Gothic" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Width="150" HorizontalAlignment="Center" TextAlignment="Right" Foreground="White"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="UsersButton" Background="#CC04126C" BorderBrush="#FF04126C" Margin="10,3" Click="UsersButton_Click">
+                    <Grid Width="175" Height="40">
+                        <materialDesign:PackIcon Kind="User" VerticalAlignment="Center" Height="20" Margin="0,10" Width="32" Foreground="White" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="UŻYTKOWNICY" FontFamily="Malgun Gothic" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Width="150" HorizontalAlignment="Center" Foreground="White" TextAlignment="Right" Grid.ColumnSpan="2" Margin="12,9,13,9"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="JokesButton"  Background="#CC04126C" BorderBrush="#FF04126C" Margin="10,3" Click="JokesButton_Click">
+                    <Grid Width="175" Height="40">
+                        <materialDesign:PackIcon Kind="Mood" VerticalAlignment="Center" Height="20" Margin="0,10" Width="34" Foreground="White"/>
+                        <TextBlock Text="DOWCIPY" FontFamily="Malgun Gothic" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Width="150" HorizontalAlignment="Center" TextAlignment="Right" Foreground="White"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="SettingsButton" Background="#CC04126C" BorderBrush="#FF04126C" Margin="10,3" Click="SettingsButton_Click">
+                    <Grid Width="175" Height="40">
+                        <materialDesign:PackIcon Kind="Tools" VerticalAlignment="Center" Height="20" Margin="0,10" Width="34" Foreground="White"/>
+                        <TextBlock Text="USTAWIENIA" FontFamily="Malgun Gothic" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Width="150" HorizontalAlignment="Center" TextAlignment="Right" Foreground="White"/>
+                    </Grid>
+                </Button>
+
+                <Button  x:Name="Logout_Button" Background="#CC04126C" BorderBrush="#FF04126C" Margin="10,3" Click="Logout_Button_Click">
+                    <Grid Width="175" Height="40">
+                        <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Height="20" Margin="0,10" Width="34" Foreground="White"/>
+                        <TextBlock Text="Wyloguj" FontFamily="Malgun Gothic" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Width="150" HorizontalAlignment="Center" TextAlignment="Right" Foreground="White"/>
+                    </Grid>
+                </Button>
+
+
+            </StackPanel>
 
         </Grid>
-        
-
+        <Frame x:Name="ContentFrame" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Source="pages\StartPage.xaml" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
