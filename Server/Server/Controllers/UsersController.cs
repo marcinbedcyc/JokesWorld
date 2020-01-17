@@ -2,97 +2,133 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DbConnection;
-using DbConnection.DAOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using DbConnection;
 
 namespace Server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
+        private readonly MyDbContext _context;
 
-
-        private readonly ILogger<UsersController> _logger;
-
-        public UsersController(ILogger<UsersController> logger)
+        public UsersController(MyDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        [HttpGet("test")]
-        public void Test(string nickname)
+        // GET: api/Users
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            DbConnection.Program.Main();
+            return await _context.Users.ToListAsync();
+        }
+
+        // GET: api/Users/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
 
         [HttpGet("nickname/{nickname}")]
-        public UserDAO GetUserByNickname(string nickname)
+        public async Task<ActionResult<User>> GetUserByNickname(string nickname)
         {
-            return DbRepository.GetUserByNickname(nickname).ToDAO();
+            var user = await _context.Users.Where(u => u.Nickname == nickname).SingleAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
 
         [HttpGet("{id}/comments")]
-        public List<CommentDAO> GetUsersComment(int id)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetUsersComment(int id)
         {
-            List<CommentDAO> comments = new List<CommentDAO>();
-            foreach (Comment c in DbRepository.GetUsersComments(id))
-                comments.Add(c.ToDAO());
-            return comments;
+            return await _context.Comments.Where(c => c.AuthorFK == id).ToListAsync();
         }
 
         [HttpGet("{id}/jokes")]
-        public List<JokeDAO> GetUsersJokes(int id)
+        public async Task<ActionResult<IEnumerable<Joke>>> GetUsersJokes(int id)
         {
-            List<JokeDAO> jokes = new List<JokeDAO>();
-            foreach (Joke j in DbRepository.GetUsersJokes(id))
-                jokes.Add(j.ToDAO());
-            return jokes;
+            return await _context.Jokes.Where(j => j.AuthorFK == id).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public UserDAO GetUserById(int id)
-        {
-            return DbRepository.GetUserById(id).ToDAO();
-        }
-
-        [HttpGet]
-        public List<UserDAO> GetAllUsers()
-        {
-            List<UserDAO> users = new List<UserDAO>();
-            foreach (User u in DbRepository.GetAllUsers())
-                users.Add(u.ToDAO());
-            return users;
-        }
-
-        [HttpDelete("{id}")]
-        public string DeleteUser(int id)
-        {
-            if (DbRepository.DeleteUser(id))
-                return $"User id: {id} deleted";
-            else
-                return $"User id: {id} doesn't exist";
-        }
-
+        // PUT: api/Users/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public string UpdateUser(int id, [FromBody]UserDAO user)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            user.Id = id;
-            if (DbRepository.UpdateUser(user.ToModel()))
-                return $"User id: {id} updated";
-            else
-                return $"User id: {id} doesn't exist";
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
+        // POST: api/Users
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public string CreateUser([FromBody]UserDAO user)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            if (DbRepository.AddUser(user.ToModel()))
-                return "User created";
-            else
-                return "Some errors";
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+        }
+
+        // DELETE: api/Users/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

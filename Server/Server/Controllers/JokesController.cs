@@ -1,92 +1,128 @@
-﻿using DbConnection;
-using DbConnection.DAOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using DbConnection;
 
 namespace Server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class JokesController : ControllerBase
     {
+        private readonly MyDbContext _context;
 
-        private readonly ILogger<UsersController> _logger;
-
-        public JokesController(ILogger<UsersController> logger)
+        public JokesController(MyDbContext context)
         {
-            _logger = logger;
+            _context = context;
+        }
+
+        // GET: api/Jokes
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Joke>>> GetJokes()
+        {
+            return await _context.Jokes.ToListAsync();
+        }
+
+        // GET: api/Jokes/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Joke>> GetJoke(int id)
+        {
+            var joke = await _context.Jokes.FindAsync(id);
+
+            if (joke == null)
+            {
+                return NotFound();
+            }
+
+            return joke;
         }
 
         [HttpGet("{id}/comments")]
-        public List<CommentDAO> GetJokesComment(int id)
+        public async Task<ActionResult<IEnumerable<Comment>>> GetJokesComment(int id)
         {
-            List<CommentDAO> comments = new List<CommentDAO>();
-            foreach (Comment c in DbRepository.GetJokesComments(id))
-                comments.Add(c.ToDAO());
-            return comments;
-        }
-
-
-        [HttpGet("{id}")]
-        public JokeDAO GetJokeById(int id)
-        {
-            return DbRepository.GetJokeById(id).ToDAO();
-        }
-
-        [HttpGet]
-        public List<JokeDAO> GetAllJokes()
-        {
-            List<JokeDAO> jokes = new List<JokeDAO>();
-            foreach (Joke j in DbRepository.GetAllJokes())
-                jokes.Add(j.ToDAO());
-            return jokes;
-        }
-
-        [HttpGet("search/{title}")]
-        public List<JokeDAO> FindAllJokesAbout(string title)
-        {
-            List<JokeDAO> jokes = new List<JokeDAO>();
-            foreach (Joke j in DbRepository.GetJokesAbout(title))
-                jokes.Add(j.ToDAO());
-            return jokes;
+            return await _context.Comments.Where(c => c.JokeFK == id).ToListAsync();
         }
 
         [HttpGet("random")]
-        public JokeDAO GetRandomJoke()
+        public async Task<ActionResult<Joke>> GetRandomJoke()
         {
-            return DbRepository.GetRandomJoke().ToDAO();
+            //return await _context.Jokes.FindAsync(1);
+            return NotFound();
         }
 
-        [HttpDelete("{id}")]
-        public string DeleteJoke(int id)
+        [HttpGet("search/{title}")]
+        public async Task<ActionResult<IEnumerable<Joke>>> GetAllJokesAbout(string title)
         {
-            if (DbRepository.DeleteJoke(id))
-                return $"Joke id: {id} deleted";
-            else
-                return $"Joke id: {id} doesn't exist";
+            return await _context.Jokes.Where(j => j.Title.ToLower().Contains(title.ToLower())).ToListAsync(); 
         }
 
+        // PUT: api/Jokes/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public string UpdateJoke(int id, [FromBody]JokeDAO joke)
+        public async Task<IActionResult> PutJoke(int id, Joke joke)
         {
-            joke.Id = id;
-            if (DbRepository.UpdateJoke(joke.ToModel()))
-                return $"Joke id: {id} updated";
-            else
-                return $"Joke id: {id} doesn't exist";
+            if (id != joke.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(joke).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!JokeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
+        // POST: api/Jokes
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public string CreateJoke([FromBody]JokeDAO joke)
+        public async Task<ActionResult<Joke>> PostJoke(Joke joke)
         {
-            if (DbRepository.AddJoke(joke.ToModel()))
-                return "Joke created";
-            else
-                return "Some errors";
+            _context.Jokes.Add(joke);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetJoke", new { id = joke.Id }, joke);
+        }
+
+        // DELETE: api/Jokes/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Joke>> DeleteJoke(int id)
+        {
+            var joke = await _context.Jokes.FindAsync(id);
+            if (joke == null)
+            {
+                return NotFound();
+            }
+
+            _context.Jokes.Remove(joke);
+            await _context.SaveChangesAsync();
+
+            return joke;
+        }
+
+        private bool JokeExists(int id)
+        {
+            return _context.Jokes.Any(e => e.Id == id);
         }
     }
 }
