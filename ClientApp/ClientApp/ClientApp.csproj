@@ -68,8 +68,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="addWindows\AddJokeWindow.xaml.cs">
+      <DependentUpon>AddJokeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="models\Comment.cs" />
     <Compile Include="models\Joke.cs" />
     <Compile Include="models\User.cs" />
+    <Compile Include="pages\CommentPage.xaml.cs">
+      <DependentUpon>CommentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\CommentsPage.xaml.cs">
+      <DependentUpon>CommentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="pages\JokePage.xaml.cs">
+      <DependentUpon>JokePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pages\JokesPage.xaml.cs">
       <DependentUpon>JokesPage.xaml</DependentUpon>
     </Compile>
@@ -85,6 +98,23 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
+    <Page Include="addWindows\AddJokeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\CommentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\CommentsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="pages\JokePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="pages\JokesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
