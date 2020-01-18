@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace ClientApp.models
 {
     public class Joke
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Title { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Content { get; set; }
 
-        public int AuthorFK { get; set; }
+        public int? AuthorFK { get; set; }
 
         public override string ToString()
         {
