@@ -2,6 +2,9 @@
 Server/.vs/
 Server/DbConnection/.vs/
 ClientApp/.vs/
+ClientApp/ClientApp/bin
+ClientApp/ClientApp/obj
+
 
 # Build results
 [Dd]ebug/
