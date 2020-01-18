@@ -30,10 +30,6 @@ namespace ClientApp
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            MainWindow newWindow1 = new MainWindow();
-            newWindow1.Show();
-            this.Close();
             LoginButton.IsEnabled = false;
             LoginButton.Content = "Loading...";
             try
@@ -49,12 +45,18 @@ namespace ClientApp
                 // james@example.com
                 if (BCrypt.Net.BCrypt.Verify(passwordField.Password, account.Password))
                 {
-                    MainWindow newWindow = new MainWindow();
+                    MainWindow newWindow = new MainWindow()
+                    {
+                        CurrentLoggedInUser = account,
+                    };
                     newWindow.Show();
                     this.Close();
                 }
-                else
+                else { 
                     status.Content = "Wrong";
+                    LoginButton.IsEnabled = true;
+                    LoginButton.Content = "Login";
+                }
 
 
             }
@@ -65,6 +67,7 @@ namespace ClientApp
                 //MessageBoxResult result = MessageBox.Show(ex.Message);
                 LoginButton.IsEnabled = true;
                 LoginButton.Content = "Login";
+                status.Content = "Wrong";
             }
         }
     }
