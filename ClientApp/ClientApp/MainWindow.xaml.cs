@@ -21,6 +21,7 @@ namespace ClientApp
     {
         public MainWindow()
         {
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
 
@@ -59,6 +60,11 @@ namespace ClientApp
         private void JokesButton_Click(object sender, RoutedEventArgs e)
         {
             ContentFrame.Source = new Uri("pages\\JokesPage.xaml", UriKind.Relative);
+        }
+
+        private void CommentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContentFrame.Source = new Uri("pages\\CommentsPage.xaml", UriKind.Relative);
         }
     }
 }

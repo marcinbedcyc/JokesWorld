@@ -24,6 +24,7 @@ namespace ClientApp
     {
         public LoginWindow()
         {
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
 
@@ -61,7 +62,7 @@ namespace ClientApp
             {
                 Console.WriteLine("\nException Caught!");
                 Console.WriteLine("Message :{0} ", ex.Message);
-                MessageBoxResult result = MessageBox.Show("No Internet Connection");
+                //MessageBoxResult result = MessageBox.Show(ex.Message);
                 LoginButton.IsEnabled = true;
                 LoginButton.Content = "Login";
             }
