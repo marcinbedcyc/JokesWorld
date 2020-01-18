@@ -1,4 +1,5 @@
 ﻿using ClientApp.models;
+using ClientApp.pages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClientApp.addWindows;
+
 
 namespace ClientApp
 {
@@ -23,7 +26,9 @@ namespace ClientApp
     /// Interaction logic for JokesPage.xaml
     /// </summary>
     public partial class JokesPage : Page
-    {
+    { 
+        public User CurrentLoggedInUser { get; set; }
+
         public JokesPage()
         {
             InitializeComponent();
@@ -32,6 +37,7 @@ namespace ClientApp
 
         async void Reload()
         {
+            ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
             try
             {
                 HttpClient client = new HttpClient();
@@ -43,10 +49,10 @@ namespace ClientApp
                 var jokes = JsonConvert.DeserializeObject<List<Joke>>(responseBody);
                 foreach (Joke j in jokes)
                 {
-                    if (count % 3 == 0)
-                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j.Title, j.CreatedDate.ToString(), j.Content, true));
+                    if (count % 4 == 0 || count % 4 == 3)
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, true, new RoutedEventHandler((s, e) => JokeButton_Click(s, e, j))));
                     else
-                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j.Title, j.CreatedDate.ToString(), j.Content, false));
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, false, new RoutedEventHandler((s, e) => JokeButton_Click(s, e, j))));
                     count++;
                 }
             }
@@ -60,11 +66,7 @@ namespace ClientApp
         {
             try
             {
-                for(int i=0; i < ScrollContentWrapPanel.Children.Count; i++)
-                {
-                    if (i >= 4) 
-                        ScrollContentWrapPanel.Children.RemoveAt(i);
-                }
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response =  await client.GetAsync("https://localhost:44377/api/jokes/search/" + SearchTextBox.Text);
                 response.EnsureSuccessStatusCode();
@@ -75,20 +77,16 @@ namespace ClientApp
                 foreach (Joke j in jokes)
                 {
                     if (count % 3 == 0)
-                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j.Title, j.CreatedDate.ToString(), j.Content, true));
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, true, new RoutedEventHandler((s, e2) => JokeButton_Click(s, e2, j))));
                     else
-                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j.Title, j.CreatedDate.ToString(), j.Content, false));
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, false, new RoutedEventHandler((s, e2) => JokeButton_Click(s, e2, j))));
                     count++;
                 }
                
             }
             catch (HttpRequestException ex)
             {
-                for (int i = 0; i < ScrollContentWrapPanel.Children.Count; i++)
-                {
-                    if (i >= 4)
-                        ScrollContentWrapPanel.Children.RemoveAt(i);
-                }
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -99,6 +97,26 @@ namespace ClientApp
             {
                 SearchButton_Click(this, new RoutedEventArgs());
             }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddJokeWindow newWindow1 = new AddJokeWindow()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser,
+            };
+            newWindow1.Show();
+        }
+
+        private void JokeButton_Click(object sender, RoutedEventArgs e, Joke j)
+        {
+            JokePage jokePage = new JokePage(j, this);
+            NavigationService.Navigate(jokePage);
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Reload();
         }
     }
 }

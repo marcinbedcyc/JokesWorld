@@ -1,7 +1,10 @@
-﻿using System;
+﻿using ClientApp.models;
+using ClientApp.pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +22,7 @@ namespace ClientApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public User CurrentLoggedInUser { get; set; }
         public MainWindow()
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -37,34 +41,54 @@ namespace ClientApp
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow newWindow1 = new LoginWindow();
-            newWindow1.Show();
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
             this.Close();
         }
 
         private void UsersButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentFrame.Source = new Uri("pages\\UsersPage.xaml", UriKind.Relative);
+            UsersPage usersPage = new UsersPage()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser
+            };
+            ContentFrame.Navigate(usersPage);
         }
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentFrame.Source = new Uri("pages\\StartPage.xaml", UriKind.Relative);
+            StartPage startPage = new StartPage()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser
+            };
+            ContentFrame.Navigate(startPage);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentFrame.Source = new Uri("pages\\SettingsPage.xaml", UriKind.Relative);
+            SettingsPage settingsPage = new SettingsPage()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser
+            };
+            ContentFrame.Navigate(settingsPage);
         }
 
         private void JokesButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentFrame.Source = new Uri("pages\\JokesPage.xaml", UriKind.Relative);
+            JokesPage jokesPage = new JokesPage()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser
+            };
+            ContentFrame.Navigate(jokesPage);
         }
 
         private void CommentsButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentFrame.Source = new Uri("pages\\CommentsPage.xaml", UriKind.Relative);
+            CommentsPage commentsPage = new CommentsPage()
+            {
+                CurrentLoggedInUser = this.CurrentLoggedInUser
+            };
+            ContentFrame.Navigate(commentsPage);
         }
     }
 }

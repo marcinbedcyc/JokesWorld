@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClientApp.models;
+using ClientApp.pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,7 @@ namespace ClientApp
     /// </summary>
     public partial class StartPage : Page
     {
+        public User CurrentLoggedInUser { get; set; }
         public StartPage()
         {
             InitializeComponent();
