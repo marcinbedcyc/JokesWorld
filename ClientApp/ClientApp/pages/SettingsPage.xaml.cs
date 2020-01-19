@@ -38,11 +38,67 @@ namespace ClientApp
             ReapeatPasswordBox.Password = "";
             GetComments();
             GetJokes();
+            OldPasswordBox.PasswordChanged += PasswordChangedHandler;
+            NewPasswordBox.IsEnabled = false;
+            ReapeatPasswordBox.IsEnabled = false;
         }
 
-        private void SaveChangeButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveChangeButton_Click(object sender, RoutedEventArgs e)
         {
+            HttpClient client = new HttpClient();
+            List<User> users = new List<User>();
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users/");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                users = JsonConvert.DeserializeObject<List<User>>(responseBody);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
+            if (NameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z imieniem!"); return; }
+            if (SurnameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z nazwiskiem!"); return; }
+            if (NicknameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z nickname!"); return; }
+            if (EMailTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z e-mail'em!"); return; }
+            if( users.Where(u => u.Nickname.Equals(NicknameTextBox.Text)).Any() && !NicknameTextBox.Text.Equals(CurrentLoggedInUser.Nickname) ) { MessageBox.Show("Nickname zajęty"); return; }
+            if (users.Where(u => u.Email.Equals(EMailTextBox.Text)).Any() && !EMailTextBox.Text.Equals(CurrentLoggedInUser.Email)) { MessageBox.Show("Email zajęty"); return; }
+            if (!OldPasswordBox.Password.Trim().Equals(""))
+            {
+                if (!BCrypt.Net.BCrypt.Verify(OldPasswordBox.Password, CurrentLoggedInUser.Password)) { MessageBox.Show("Podane hasło jest nieprawidłowe!"); return; }
+                else
+                {
+                    if (!NewPasswordBox.Password.Equals(ReapeatPasswordBox.Password)) { MessageBox.Show("Podane hasła różnią się!"); return; }
+                    else if (NewPasswordBox.Password.Trim().Equals("") || ReapeatPasswordBox.Password.Trim().Equals("")) { MessageBox.Show("Podane nowe  hasło jest puste!"); return; }
+                    else
+                    {
+                        CurrentLoggedInUser.Password = BCrypt.Net.BCrypt.HashPassword(NewPasswordBox.Password);
+                    }
+                }
+            }
+
+            CurrentLoggedInUser.Name = NameTextBox.Text;
+            CurrentLoggedInUser.Surname = SurnameTextBox.Text;
+            CurrentLoggedInUser.Nickname = NicknameTextBox.Text;
+            CurrentLoggedInUser.Email = EMailTextBox.Text;
+
+            var json = JsonConvert.SerializeObject(CurrentLoggedInUser);
+            try
+            {
+                HttpContent content = new StringContent(json);
+
+                content.Headers.Remove("Content-Type");
+                content.Headers.Add("Content-Type", "application/json");
+                HttpResponseMessage response = await client.PutAsync("https://localhost:44377/api/users/" + CurrentLoggedInUser.Id, content);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            MessageBox.Show("Dane zostały zmienione" + NewPasswordBox.Password);
         }
 
         async private void GetComments()
@@ -105,6 +161,20 @@ namespace ClientApp
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment c)
         {
             MessageBox.Show("Not implemented");
+        }
+
+        void PasswordChangedHandler(Object sender, RoutedEventArgs args)
+        {
+            if (BCrypt.Net.BCrypt.Verify(OldPasswordBox.Password, CurrentLoggedInUser.Password)){
+                NewPasswordBox.IsEnabled = true;
+                ReapeatPasswordBox.IsEnabled = true;
+                OldPasswordBox.Background = new SolidColorBrush(Color.FromArgb(40, 0, 255, 0));
+            }
+            else { 
+                OldPasswordBox.Background = new SolidColorBrush(Color.FromArgb(40, 255, 0, 0));
+                NewPasswordBox.IsEnabled = true;
+                ReapeatPasswordBox.IsEnabled = true;
+            }
         }
 
 
