@@ -8,8 +8,47 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage">
 
-    <Grid>
-        <Label Content="Settings" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="30"/>
-
-    </Grid>
+    <ScrollViewer x:Name="ScrollViewer" Margin="20" VerticalScrollBarVisibility="Auto" Background="White">
+        <WrapPanel x:Name="ScrollContentWrapPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock TextWrapping="WrapWithOverflow" x:Name="TitleLabel"  Text="USTAWIENIA" Margin="10,10,10,50" FontSize="45" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Imię:" Margin="10,0,5,0" Width="130" FontSize="20"></TextBlock>
+            <TextBox Name="NameTextBox" MaxWidth="250" Width="250" Text="Eustachy" Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent" TextAlignment="Left"></TextBox>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Nazwisko:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <TextBox x:Name="SurnameTextBox" MaxWidth="250" Width="250" Text="Sobolewski" Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent" TextAlignment="Left"></TextBox>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="E-Mail:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <TextBox x:Name="EMailTextBox" MaxWidth="250" Width="250" Text="eu.sobole@example.com" Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent" TextAlignment="Left"></TextBox>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Nickname:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <TextBox  x:Name="NicknameTextBox" MaxWidth="250" Width="250" Text="sobol123" Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent" TextAlignment="Left"></TextBox>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Stare hasło:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <PasswordBox x:Name="OldPasswordBox" MaxWidth="250" Width="250" Password="password"  Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent"/>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Nowe hasło:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <PasswordBox x:Name="NewPasswordBox" MaxWidth="250" Width="250" Password="password12323"  Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent"/>
+            <Label Margin="0,0,3000,0"></Label>
+            <TextBlock Text="Powtórz hasło:" Margin="10,0,5,0" Width="130"  FontSize="20"></TextBlock>
+            <PasswordBox x:Name="ReapeatPasswordBox" MaxWidth="250" Width="250" Password="password12323"  Margin="10,0,10,0" FontSize="20" BorderBrush="Black" Background="Transparent"/>
+            <Label Margin="0,0,3000,0"></Label>
+            <Button x:Name="SaveChangeButton" Cursor="Hand" Width="100" Height="35" Content="Zapisz" Margin="10" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="SaveChangeButton_Click"></Button>
+            <Label Margin="0,0,3000,0"></Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="370"></ColumnDefinition>
+                    <ColumnDefinition Width="370"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="KOMENTARZE:" Margin="10" FontSize="25" FontFamily="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Grid.Column="1" Grid.Row="0" Content="DOWCIPY:" Margin="10" FontSize="25" FontFamily="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <StackPanel x:Name="CommentsStackPanel" Margin="5" Grid.Row="1" Grid.Column="0"></StackPanel>
+                <StackPanel x:Name="JokesStackPanel"  Margin="5" Grid.Row="1" Grid.Column="1"></StackPanel>
+            </Grid>
+        </WrapPanel>
+    </ScrollViewer>
 </Page>
