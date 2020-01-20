@@ -63,13 +63,23 @@ namespace Server.Controllers
         [HttpGet("{id}/last_comment")]
         public async Task<ActionResult<Comment>> GetLastComment(int id)
         {
-            return await _context.Comments.Where(c => c.AuthorFK == id).OrderByDescending(c => c.CreatedDate).FirstAsync();
+            var comments = await _context.Comments.Where(c => c.AuthorFK == id).ToListAsync();
+            if (comments.Count == 0)
+            {
+                return new Comment();
+            }
+            return comments.OrderByDescending(c => c.CreatedDate).First();
         }
 
         [HttpGet("{id}/last_joke")]
         public async Task<ActionResult<Joke>> GetLastJoke(int id)
         {
-            return await _context.Jokes.Where(j => j.AuthorFK == id).OrderByDescending(j => j.CreatedDate).FirstAsync();
+            var jokes = await _context.Jokes.Where(j => j.AuthorFK == id).ToListAsync();
+            if (jokes.Count == 0)
+            {
+                return new Joke();
+            }
+            return jokes.OrderByDescending(j => j.CreatedDate).First();
         }
 
         [HttpGet("{id}/jokes")]
