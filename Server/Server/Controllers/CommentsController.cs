@@ -27,6 +27,17 @@ namespace Server.Controllers
             return await _context.Comments.ToListAsync();
         }
 
+        [HttpGet("last_ones")]
+        public async Task<ActionResult<IEnumerable<Comment>>> GetLastComments()
+        {
+            var comments = await _context.Comments.OrderByDescending(c => c.CreatedDate).ToListAsync();
+
+            if (comments.Count > 10)
+                return comments.Take(10).ToList();
+            else
+                return comments.Take(comments.Count).ToList();
+        }
+
         // GET: api/Comments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(int id)

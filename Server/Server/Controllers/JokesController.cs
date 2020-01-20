@@ -27,6 +27,17 @@ namespace Server.Controllers
             return await _context.Jokes.ToListAsync();
         }
 
+        [HttpGet("last_ones")]
+        public async Task<ActionResult<IEnumerable<Joke>>> GetLastJokes()
+        {
+            var jokes = await _context.Jokes.OrderByDescending(j => j.CreatedDate).ToListAsync();
+            
+            if(jokes.Count > 10)
+                return jokes.Take(10).ToList();
+            else
+                return jokes.Take(jokes.Count).ToList();
+        }
+
         // GET: api/Jokes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Joke>> GetJoke(int id)
