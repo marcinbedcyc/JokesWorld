@@ -36,6 +36,23 @@ namespace ClientApp.addWindows
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            HttpClient client = new HttpClient();
+            List<Joke> jokes = new List<Joke>();
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/jokes/");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                jokes = JsonConvert.DeserializeObject<List<Joke>>(responseBody);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            if (jokes.Where(u => u.Content.Equals(ContentTextBox.Text)).Any()) { MessageBox.Show("Dowcip o podanej treści już istnieje!"); return; }
+            if (TitleTextBox.Text.Trim().Equals("")) { MessageBox.Show("Pusty tytuł"); return; }
+            if (TitleTextBox.Text.Trim().Equals("")) { MessageBox.Show("Pusta zawartośc"); return; }
+
             Joke joke = new Joke
             {
                 Title = TitleTextBox.Text,
@@ -44,23 +61,10 @@ namespace ClientApp.addWindows
                 AuthorFK = this.CurrentLoggedInUser.Id
             };
 
-            if (TitleTextBox.Text.Trim().Equals(""))
-            {
-                MessageBox.Show("Pusty tytuł");
-                return;
-            }
-
-            if (TitleTextBox.Text.Trim().Equals(""))
-            {
-                MessageBox.Show("Pusta zawartośc");
-                return;
-            }
-
             var json = JsonConvert.SerializeObject(joke, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             MessageBox.Show(json);
             try
             {
-                HttpClient client = new HttpClient();
                 HttpContent content = new StringContent(json);
                 
                 content.Headers.Remove("Content-Type");
