@@ -1,8 +1,10 @@
 ﻿using ClientApp.models;
 using ClientApp.pages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +28,64 @@ namespace ClientApp
         public UsersPage()
         {
             InitializeComponent();
+            Reload();
+        }
+
+        private void UserButton_Click(object sender, RoutedEventArgs e, User user)
+        {
+            UserPage userPage = new UserPage(user, this);
+            NavigationService.Navigate(userPage);
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Reload();
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        async void Reload()
+        {
+            ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                int count = 0;
+                var users = JsonConvert.DeserializeObject<List<User>>(responseBody);
+                foreach (User u in users)
+                {
+                    response = await client.GetAsync("https://localhost:44377/api/users/"+ u.Id + "/last_joke");
+                    responseBody = await response.Content.ReadAsStringAsync();
+                    var joke = JsonConvert.DeserializeObject<Joke>(responseBody);
+                    string jokeContent;
+                    if (joke.Content is null) jokeContent = "Brak";
+                    else jokeContent = joke.Content;
+
+                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_comment");
+                    responseBody = await response.Content.ReadAsStringAsync();
+                    var comment = JsonConvert.DeserializeObject<Comment>(responseBody);
+                    string commentContent;
+                    if (comment.Content is null) commentContent = "Brak";
+                    else commentContent = comment.Content;
+
+                    if (count % 4 == 0 || count % 4 == 3) 
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateUserContentGrid(u, commentContent, jokeContent, true, new RoutedEventHandler((s, e) => UserButton_Click(s, e, u))));
+                    else
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateUserContentGrid(u, commentContent, jokeContent, false, new RoutedEventHandler((s, e) => UserButton_Click(s, e, u))));
+                    count++;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
