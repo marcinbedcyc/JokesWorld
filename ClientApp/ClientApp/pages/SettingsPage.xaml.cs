@@ -1,4 +1,5 @@
-﻿using ClientApp.models;
+﻿using ClientApp.editWindows;
+using ClientApp.models;
 using ClientApp.pages;
 using Newtonsoft.Json;
 using System;
@@ -153,17 +154,21 @@ namespace ClientApp
             }
         }
 
-        private void JokeButton_Click(object sender, RoutedEventArgs e, Joke j)
+        private void JokeButton_Click(object sender, RoutedEventArgs e, Joke joke)
         {
-            MessageBox.Show("Not implemented");
+            JokeEditWindow newWindow1 = new JokeEditWindow(CurrentLoggedInUser, joke);
+            newWindow1.Closing += (s, args) => { Reload(); };
+            newWindow1.Show();
         }
 
-        private void CommentButton_Click(object sender, RoutedEventArgs e, Comment c)
+        private void CommentButton_Click(object sender, RoutedEventArgs e, Comment comment)
         {
-            MessageBox.Show("Not implemented");
+            CommentEditWindow newWindow1 = new CommentEditWindow(CurrentLoggedInUser, comment);
+            newWindow1.Closing += (s, args) => { Reload(); };
+            newWindow1.Show();
         }
 
-        void PasswordChangedHandler(Object sender, RoutedEventArgs args)
+        private void PasswordChangedHandler(Object sender, RoutedEventArgs args)
         {
             if (BCrypt.Net.BCrypt.Verify(OldPasswordBox.Password, CurrentLoggedInUser.Password)){
                 NewPasswordBox.IsEnabled = true;
@@ -177,6 +182,24 @@ namespace ClientApp
             }
         }
 
+        private void Reload()
+        {
+            CommentsStackPanel.Children.Clear();
+            JokesStackPanel.Children.Clear();
+            GetComments();
+            GetJokes();
+        }
 
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            NameTextBox.Text = this.CurrentLoggedInUser.Name;
+            SurnameTextBox.Text = this.CurrentLoggedInUser.Surname;
+            EMailTextBox.Text = this.CurrentLoggedInUser.Email;
+            NicknameTextBox.Text = this.CurrentLoggedInUser.Nickname;
+            OldPasswordBox.Password = "";
+            NewPasswordBox.Password = "";
+            ReapeatPasswordBox.Password = "";
+            Reload();
+        }
     }
 }
