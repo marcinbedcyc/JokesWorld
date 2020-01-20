@@ -60,6 +60,18 @@ namespace Server.Controllers
             return await _context.Comments.Where(c => c.AuthorFK == id).ToListAsync();
         }
 
+        [HttpGet("{id}/last_comment")]
+        public async Task<ActionResult<Comment>> GetLastComment(int id)
+        {
+            return await _context.Comments.Where(c => c.AuthorFK == id).OrderByDescending(c => c.CreatedDate).FirstAsync();
+        }
+
+        [HttpGet("{id}/last_joke")]
+        public async Task<ActionResult<Joke>> GetLastJoke(int id)
+        {
+            return await _context.Jokes.Where(j => j.AuthorFK == id).OrderByDescending(j => j.CreatedDate).FirstAsync();
+        }
+
         [HttpGet("{id}/jokes")]
         public async Task<ActionResult<IEnumerable<Joke>>> GetUsersJokes(int id)
         {
