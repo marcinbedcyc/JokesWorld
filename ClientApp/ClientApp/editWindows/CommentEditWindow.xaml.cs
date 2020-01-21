@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -55,7 +56,7 @@ namespace ClientApp.editWindows
 
                 content.Headers.Remove("Content-Type");
                 content.Headers.Add("Content-Type", "application/json");
-                HttpResponseMessage response = await client.PutAsync("https://localhost:44377/api/comments/" + CurrentComment.Id, content);
+                HttpResponseMessage response = await client.PutAsync(ConfigurationManager.AppSettings["ServerURL"] + "comments/" + CurrentComment.Id, content);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException ex)
@@ -63,6 +64,22 @@ namespace ClientApp.editWindows
                 MessageBox.Show(ex.ToString());
             }
             MessageBox.Show("Dane zostały zmienione!");
+            this.Close();
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.DeleteAsync(ConfigurationManager.AppSettings["ServerURL"] + "comments/" + CurrentComment.Id);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            MessageBox.Show("Komentarz został usunięty!");
             this.Close();
         }
     }

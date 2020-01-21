@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ClientApp.editWindows"
         mc:Ignorable="d"
         Title="CommentEditWindow" Height="600" Width="400
@@ -15,7 +16,10 @@
         <TextBlock Text="Data:" Width="100" Margin="5" FontSize="18"></TextBlock>
         <DatePicker x:Name="CreatedDatePicker" Width="150" Margin="10"></DatePicker>
         <Label Margin="0,0,3000,30"></Label>
-        <Button x:Name="AddButton"  Cursor="Hand" Width="75" Height="30" Content="Dodaj" Margin="90,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="AddButton_Click"/>
-        <Button x:Name="CancelButton" Cursor="Hand" Width="75" Height="30" Content="Anuluj" Margin="10,0,0,10" Background="#CCDE3333" Foreground="White" FontWeight="Bold" Click="CancelButton_Click"/>
+        <Button x:Name="AddButton"  Cursor="Hand" Width="75" Height="30" Content="Dodaj" Margin="75,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="AddButton_Click"/>
+        <Button x:Name="CancelButton" Cursor="Hand" Width="75" Height="30" Content="Anuluj" Margin="10,0,10,10" Background="#CCDE3333" Foreground="White" FontWeight="Bold" Click="CancelButton_Click"/>
+        <Button x:Name="DeleteButton"  Cursor="Hand" Width="40" Height="30" Margin="0,0,0,10" Background="#00DE3333" BorderBrush="#00DE3333" Foreground="Crimson" FontWeight="Bold" Click="DeleteButton_Click">
+            <materialDesign:PackIcon Kind="Bin" Height="23" Width="25"/>
+        </Button>
     </WrapPanel>
 </Window>

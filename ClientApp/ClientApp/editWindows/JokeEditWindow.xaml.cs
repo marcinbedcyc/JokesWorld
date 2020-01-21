@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -36,7 +37,7 @@ namespace ClientApp.editWindows
         }
         
 
-    private async void AddButton_Click(object sender, RoutedEventArgs e)
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
 
             HttpClient client = new HttpClient();
@@ -82,6 +83,22 @@ namespace ClientApp.editWindows
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.DeleteAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/" + CurrentJoke.Id);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            MessageBox.Show("Dowcip został usunięty!");
             this.Close();
         }
     }
