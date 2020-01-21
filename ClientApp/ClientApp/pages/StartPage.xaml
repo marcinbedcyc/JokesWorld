@@ -4,12 +4,36 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientApp"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StartPage">
 
-    <Grid>
-        <Label Content="Start" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="30"/>
-
-    </Grid>
+    <ScrollViewer x:Name="ScrollViewer" Margin="20" VerticalScrollBarVisibility="Auto" Background="White">
+        <WrapPanel x:Name="ScrollContentWrapPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock TextWrapping="WrapWithOverflow" x:Name="TitleLabel"  Text="WITAJ NICKNAME!" Margin="10" FontSize="45" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,10"></Label>
+            <Button x:Name="RefreshButton" Cursor="Hand" Width="75" Height="30" Margin="10,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="RefreshButton_Click"  >
+                <materialDesign:PackIcon Kind="Refresh" Height="25" Width="45"/>
+            </Button>
+            <Label Margin="0,0,3000,10"></Label>
+            <Label Margin="0,0,3000,10"></Label>
+            <TextBlock TextWrapping="WrapWithOverflow"   Text="OSTATNIE DOWCIPY:" Margin="10" FontSize="30" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,10"></Label>
+            <WrapPanel x:Name="JokesStackPanel" HorizontalAlignment="Left" VerticalAlignment="Top"></WrapPanel>
+            <Label Margin="0,0,3000,10"></Label>
+            <TextBlock TextWrapping="WrapWithOverflow"   Text="OSTATNIE KOMENTARZE:" Margin="10" FontSize="30" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,10"></Label>
+            <WrapPanel x:Name="CommentsStackPanel" Margin="5"  HorizontalAlignment="Left" VerticalAlignment="Top"></WrapPanel>
+            <Label Margin="0,0,3000,10"></Label>
+            <TextBlock TextWrapping="WrapWithOverflow"   Text="TWÓJ OSTATNI DOWCIP:" Margin="10" FontSize="30" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,10"></Label>
+            <WrapPanel x:Name="MyJokeStackPanel" Margin="5"  HorizontalAlignment="Left" VerticalAlignment="Top"></WrapPanel>
+            <Label Margin="0,0,3000,10"></Label>
+            <TextBlock TextWrapping="WrapWithOverflow"   Text="TWÓJ OSTATNI KOMENTARZ:" Margin="10" FontSize="30" FontFamily="Bold"></TextBlock>
+            <Label Margin="0,0,3000,10"></Label>
+            <WrapPanel x:Name="MyCommentStackPanel" Margin="5"  HorizontalAlignment="Left" VerticalAlignment="Top"></WrapPanel>
+            <Label Margin="0,0,3000,10"></Label>
+        </WrapPanel>
+    </ScrollViewer>
 </Page>

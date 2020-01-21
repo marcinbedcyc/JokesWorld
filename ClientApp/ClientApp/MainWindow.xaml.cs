@@ -23,10 +23,13 @@ namespace ClientApp
     public partial class MainWindow : Window
     {
         public User CurrentLoggedInUser { get; set; }
-        public MainWindow()
+        public MainWindow(User user)
         {
+            this.CurrentLoggedInUser = user;
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
+            StartPage startPage = new StartPage(this.CurrentLoggedInUser);
+            ContentFrame.Navigate(startPage);
         }
 
         private void PowerButton_Click(object sender, RoutedEventArgs e)
@@ -57,10 +60,7 @@ namespace ClientApp
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
-            StartPage startPage = new StartPage()
-            {
-                CurrentLoggedInUser = this.CurrentLoggedInUser
-            };
+            StartPage startPage = new StartPage(this.CurrentLoggedInUser);
             ContentFrame.Navigate(startPage);
         }
 
