@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
 
 namespace ClientApp
 {
@@ -42,9 +43,47 @@ namespace ClientApp
             Reload();
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/search/" + SearchTextBox.Text);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
+                int count = 0;
+                var users = JsonConvert.DeserializeObject<List<User>>(responseBody);
+                foreach (User u in users)
+                {
+                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_joke");
+                    responseBody = await response.Content.ReadAsStringAsync();
+                    var joke = JsonConvert.DeserializeObject<Joke>(responseBody);
+                    string jokeContent;
+                    if (joke.Content is null) jokeContent = "Brak";
+                    else jokeContent = joke.Content;
+
+                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_comment");
+                    responseBody = await response.Content.ReadAsStringAsync();
+                    var comment = JsonConvert.DeserializeObject<Comment>(responseBody);
+                    string commentContent;
+                    if (comment.Content is null) commentContent = "Brak";
+                    else commentContent = comment.Content;
+
+                    if (count % 4 == 0 || count % 4 == 3)
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateUserContentGrid(u, commentContent, jokeContent, true, new RoutedEventHandler((s, arg) => UserButton_Click(s, arg, u))));
+                    else
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateUserContentGrid(u, commentContent, jokeContent, false, new RoutedEventHandler((s, arg) => UserButton_Click(s, arg, u))));
+                    count++;
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                MessageBox.Show(ex.Message);
+            }
         }
 
         async void Reload()
