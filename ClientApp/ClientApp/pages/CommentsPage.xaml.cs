@@ -44,10 +44,10 @@ namespace ClientApp.pages
                 var comments = JsonConvert.DeserializeObject<List<Comment>>(responseBody);
                 foreach (Comment c in comments)
                 {
-                    if (count % 3 == 0)
+                    if (count % 4 == 3 || count % 4 == 0)
                         ScrollContentWrapPanel.Children.Add(Utils.CreateCommentContentGrid(c, true, new RoutedEventHandler((s, e) => CommentButton_Click(s, e, c))));
                     else
-                        ScrollContentWrapPanel.Children.Add(Utils.CreateCommentContentGrid(c, true, new RoutedEventHandler((s, e) => CommentButton_Click(s, e, c))));
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateCommentContentGrid(c, false, new RoutedEventHandler((s, e) => CommentButton_Click(s, e, c))));
                     count++;
                 }
             }
@@ -61,6 +61,35 @@ namespace ClientApp.pages
         {
             CommentPage commentPage = new CommentPage(c, this);
             NavigationService.Navigate(commentPage);
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/comments/search/" + SearchTextBox.Text);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                int count = 0;
+                var comments = JsonConvert.DeserializeObject<List<Comment>>(responseBody);
+                foreach (Comment c in comments)
+                {
+                    if (count % 4 == 3 || count % 4 == 0)
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateCommentContentGrid(c, true, new RoutedEventHandler((s, e2) => CommentButton_Click(s, e2, c))));
+                    else
+                        ScrollContentWrapPanel.Children.Add(Utils.CreateCommentContentGrid(c, false, new RoutedEventHandler((s, e2) => CommentButton_Click(s, e2, c))));
+                    count++;
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

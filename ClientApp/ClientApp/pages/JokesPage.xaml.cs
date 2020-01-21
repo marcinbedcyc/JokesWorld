@@ -37,7 +37,7 @@ namespace ClientApp
 
         async void Reload()
         {
-            ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+            ScrollContentWrapPanel.Children.RemoveRange(6, ScrollContentWrapPanel.Children.Count - 6);
             try
             {
                 HttpClient client = new HttpClient();
@@ -66,7 +66,7 @@ namespace ClientApp
         {
             try
             {
-                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                ScrollContentWrapPanel.Children.RemoveRange(6, ScrollContentWrapPanel.Children.Count - 6);
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response =  await client.GetAsync("https://localhost:44377/api/jokes/search/" + SearchTextBox.Text);
                 response.EnsureSuccessStatusCode();
@@ -76,7 +76,7 @@ namespace ClientApp
                 var jokes = JsonConvert.DeserializeObject<List<Joke>>(responseBody);
                 foreach (Joke j in jokes)
                 {
-                    if (count % 3 == 0)
+                    if (count % 4 == 3 || count % 4 == 0)
                         ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, true, new RoutedEventHandler((s, e2) => JokeButton_Click(s, e2, j))));
                     else
                         ScrollContentWrapPanel.Children.Add(Utils.CreateJokeContentGrid(j, false, new RoutedEventHandler((s, e2) => JokeButton_Click(s, e2, j))));

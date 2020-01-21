@@ -12,8 +12,7 @@
         <WrapPanel x:Name="ScrollContentWrapPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label x:Name="SearchLabel"  Content="Szukaj:" Margin="10,0,10,10"></Label>
             <TextBox x:Name="SearchTextBox" Width="150" Margin="2,0,10,10"></TextBox>
-            <Button x:Name="SearchButton"  Cursor="Hand" Width="75" Height="30" Content="Szukaj" Margin="10,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold"></Button>
-            <Button x:Name="AddButton" Cursor="Hand" Width="75" Height="30" Content="Dodaj" Margin="10,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold" ></Button>
+            <Button x:Name="SearchButton"  Cursor="Hand" Width="75" Height="30" Content="Szukaj" Margin="10,0,10,10" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="SearchButton_Click"></Button>
             <Label Margin="0,0,1000,0"></Label>
         </WrapPanel>
     </ScrollViewer>
