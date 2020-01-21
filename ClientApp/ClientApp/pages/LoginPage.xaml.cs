@@ -69,7 +69,7 @@ namespace ClientApp.pages
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Close();
+            Application.Current.Shutdown();
         }
     }
 }
