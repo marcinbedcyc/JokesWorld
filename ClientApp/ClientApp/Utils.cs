@@ -1,8 +1,10 @@
 ﻿using ClientApp.models;
 using ClientApp.pages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -182,6 +184,145 @@ namespace ClientApp
             jokeButton.Content = jokeStackPanel;
             jokeGrid.Children.Add(jokeButton);
             return jokeGrid;
+        }
+
+        public static Grid CreateUserContentGrid(User user, string comment, string joke, bool isPink, RoutedEventHandler OnClick)
+        {
+            var userGrid = new Grid
+            {
+                Margin = new Thickness(0, 0, 0, 20)
+            };
+            userGrid.RowDefinitions.Add(new RowDefinition());
+            userGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            var userButton = new Button
+            {
+                Width = 350,
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250)),
+                BorderBrush = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250)),
+                Margin = new Thickness(10),
+                Cursor = Cursors.Hand
+            };
+            userButton.Click += OnClick;
+
+            var userRectangle = new Rectangle
+            {
+                Width = 350,
+                RadiusX = 10,
+                RadiusY = 10
+            };
+            userRectangle.Effect = new DropShadowEffect
+            {
+                Color = new Color { A = 255, R = 222, G = 222, B = 222 },
+                ShadowDepth = 1,
+                BlurRadius = 20
+            };
+            if (isPink)
+                userRectangle.Fill = new SolidColorBrush(Color.FromArgb(80, 177, 101, 240));
+            else
+                userRectangle.Fill = new SolidColorBrush(Color.FromArgb(80, 112, 172, 250));
+
+
+            userGrid.Children.Add(userRectangle);
+
+            var userStackPanel = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock nicknameTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = "NICKNAME:   " + user.Nickname,
+                Margin = new Thickness(10, 5, 10, 5),
+                FontSize = 18,
+                MaxWidth = 330,
+                Width = 330,
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock NameTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = user.Name + " " + user.Surname,
+                MaxWidth = 330,
+                Width = 330,
+                FontSize = 16,
+                Margin = new Thickness(10, 5, 10, 5),
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock EmailTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = "E-MAIL:   " + user.Email,
+                MaxWidth = 330,
+                Width = 330,
+                FontSize = 16,
+                Margin = new Thickness(10, 5, 10, 20),
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock LastCommentLabelTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = "OSTATNI KOMENTARZ:",
+                MaxWidth = 300,
+                Width = 300,
+                FontSize = 14,
+                Margin = new Thickness(10, 10, 10, 0),
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock LastCommentTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = comment,
+                MaxWidth = 300,
+                Width = 300,
+                FontSize = 12,
+                Margin = new Thickness(10),
+                Padding = new Thickness(5),
+                Background = new SolidColorBrush(Color.FromArgb(180, 255, 255, 255))
+            };
+
+
+            TextBlock LastJokeLabelTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = "OSTATNI DOWCIP:",
+                Width = 300,
+                MaxWidth = 300,
+                FontSize = 14,
+                Margin = new Thickness(10, 10, 10, 0),
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+
+            TextBlock LastJokeTextBlock = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = joke,
+                Width = 300,
+                MaxWidth = 300,
+                FontSize = 12,
+                Margin = new Thickness(10),
+                Padding = new Thickness(5),
+                Background = new SolidColorBrush(Color.FromArgb(180, 255, 255, 255))
+            };
+
+            userStackPanel.Children.Add(nicknameTextBlock);
+            userStackPanel.Children.Add(NameTextBlock);
+            userStackPanel.Children.Add(EmailTextBlock);
+            userStackPanel.Children.Add(LastCommentLabelTextBlock);
+            userStackPanel.Children.Add(LastCommentTextBlock);
+            userStackPanel.Children.Add(LastJokeLabelTextBlock);
+            userStackPanel.Children.Add(LastJokeTextBlock);
+
+            userButton.Content = userStackPanel;
+            userGrid.Children.Add(userButton);
+            return userGrid;
         }
     }
 }
