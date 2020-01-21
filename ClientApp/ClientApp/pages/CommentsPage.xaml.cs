@@ -68,7 +68,7 @@ namespace ClientApp.pages
         {
             try
             {
-                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                ScrollContentWrapPanel.Children.RemoveRange(4, ScrollContentWrapPanel.Children.Count - 4);
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/comments/search/" + SearchTextBox.Text);
                 response.EnsureSuccessStatusCode();
@@ -88,8 +88,16 @@ namespace ClientApp.pages
             }
             catch (HttpRequestException ex)
             {
-                ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
+                ScrollContentWrapPanel.Children.RemoveRange(4, ScrollContentWrapPanel.Children.Count - 4);
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchButton_Click(this, new RoutedEventArgs());
             }
         }
     }

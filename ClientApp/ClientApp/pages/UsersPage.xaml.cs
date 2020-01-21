@@ -126,5 +126,12 @@ namespace ClientApp
                 MessageBox.Show(ex.Message);
             }
         }
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchButton_Click(this, new RoutedEventArgs());
+            }
+        }
     }
 }
