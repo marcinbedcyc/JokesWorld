@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -40,7 +41,7 @@ namespace ClientApp.addWindows
             List<Joke> jokes = new List<Joke>();
             try
             {
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/jokes/");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 jokes = JsonConvert.DeserializeObject<List<Joke>>(responseBody);
@@ -69,7 +70,7 @@ namespace ClientApp.addWindows
                 
                 content.Headers.Remove("Content-Type");
                 content.Headers.Add("Content-Type", "application/json");
-                HttpResponseMessage response = await client.PostAsync("https://localhost:44377/api/jokes", content);
+                HttpResponseMessage response = await client.PostAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes", content);
                 response.EnsureSuccessStatusCode();
                 this.Close();
             }
