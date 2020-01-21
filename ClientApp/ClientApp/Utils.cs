@@ -324,5 +324,20 @@ namespace ClientApp
             userGrid.Children.Add(userButton);
             return userGrid;
         }
+
+        public static TextBlock LackTextBox()
+        {
+            TextBlock lackTextBox = new TextBlock
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                Text = "BRAK",
+                Margin = new Thickness(10, 10, 10, 10),
+                FontSize = 25,
+                MaxWidth = 330,
+                Width = 330,
+                Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
+            };
+            return lackTextBox;
+        }
     }
 }
