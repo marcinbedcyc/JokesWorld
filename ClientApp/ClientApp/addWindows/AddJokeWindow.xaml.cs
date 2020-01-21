@@ -41,7 +41,7 @@ namespace ClientApp.addWindows
             List<Joke> jokes = new List<Joke>();
             try
             {
-                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 jokes = JsonConvert.DeserializeObject<List<Joke>>(responseBody);
