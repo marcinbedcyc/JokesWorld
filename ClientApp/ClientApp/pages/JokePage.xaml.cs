@@ -29,10 +29,11 @@ namespace ClientApp.pages
         List<Comment> comments;
         readonly Page previousPage;
         public User CurrentLoggedInUser { get; set; }
-        public JokePage(Joke joke, Page previousPage)
+        public JokePage(Joke joke, Page previousPage, User user)
         {
             this.joke = joke;
-            this.previousPage = previousPage; 
+            this.previousPage = previousPage;
+            this.CurrentLoggedInUser = user;
             InitializeComponent();
             TitleLabel.Text = joke.Title.ToUpper();
             DateLabel.Text = joke.CreatedDate.ToString();
@@ -68,6 +69,7 @@ namespace ClientApp.pages
         {
             try
             {
+                ScrollContentWrapPanel.Children.RemoveRange(17, ScrollContentWrapPanel.Children.Count - 17);
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/" + joke.Id + "/comments");
                 response.EnsureSuccessStatusCode();
@@ -107,6 +109,37 @@ namespace ClientApp.pages
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(previousPage);
+        }
+
+        private async void AddCommentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddCommentTextBox.Text.Trim().Equals("")) { MessageBox.Show("Komentarz nie może być pusty!"); return; }
+            try
+            {
+                HttpClient client = new HttpClient();
+
+                Comment comment = new Comment()
+                {
+                    CreatedDate = DateTime.Now,
+                    AuthorFK = this.CurrentLoggedInUser.Id,
+                    JokeFK = this.joke.Id,
+                    Content = AddCommentTextBox.Text
+                };
+                var json = JsonConvert.SerializeObject(comment, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+                HttpContent content = new StringContent(json);
+
+                content.Headers.Remove("Content-Type");
+                content.Headers.Add("Content-Type", "application/json");
+                HttpResponseMessage response = await client.PostAsync(ConfigurationManager.AppSettings["ServerURL"] + "comments", content);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            AddCommentTextBox.Text = "";
+            FindComments();
         }
     }
 }

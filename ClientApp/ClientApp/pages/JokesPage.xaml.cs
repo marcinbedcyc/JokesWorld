@@ -110,7 +110,7 @@ namespace ClientApp
 
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke j)
         {
-            JokePage jokePage = new JokePage(j, this);
+            JokePage jokePage = new JokePage(j, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(jokePage);
         }
 

@@ -9,7 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="JokePage">
 
-    <ScrollViewer x:Name="ScrollViewer" Margin="20" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer x:Name="ScrollViewer" Margin="20" VerticalScrollBarVisibility="Auto" Background="White">
         <WrapPanel x:Name="ScrollContentWrapPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Button x:Name="BackButton" Cursor="Hand" Width="60" Height="35" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="BackButton_Click">
                 <materialDesign:PackIcon Kind="ArrowBack" Height="30" Width="45"/>
@@ -25,9 +25,13 @@
             <Label Margin="0,0,3000,0"></Label>
             <TextBlock TextWrapping="WrapWithOverflow" x:Name="ContentLabel"  Text="Zawartośc:" Margin="10" FontSize="20"></TextBlock>
             <Label Margin="0,0,3000,0"></Label>
-            <Label Content="KOMENTARZE:" Margin="10,30,10,10" FontSize="18"></Label>
+            <Label Content="KOMENTARZE:" Margin="10,30,10,0" FontSize="18"></Label>
+            <Label Margin="0,0,3000,0" Height="0"></Label>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="AddCommentTextBox" Margin="10" Width="300" Height="80" TextWrapping="Wrap"></TextBox>
+                <Button x:Name="AddCommentButton" Content="DODAJ" Margin="10" Cursor="Hand" Width="80" Height="30" Background="#CC04126C" Foreground="White" FontWeight="Bold" Click="AddCommentButton_Click"/>
+            </StackPanel>
             <Label Margin="0,0,3000,0"></Label>
-            
         </WrapPanel>
     </ScrollViewer>
 </Page>

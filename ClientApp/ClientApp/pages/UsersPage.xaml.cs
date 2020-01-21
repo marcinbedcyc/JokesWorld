@@ -34,7 +34,7 @@ namespace ClientApp
 
         private void UserButton_Click(object sender, RoutedEventArgs e, User user)
         {
-            UserPage userPage = new UserPage(user, this);
+            UserPage userPage = new UserPage(user, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(userPage);
         }
 

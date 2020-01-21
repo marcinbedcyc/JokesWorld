@@ -28,10 +28,12 @@ namespace ClientApp.pages
     {
         readonly Page previousPage;
         public User User { get; set; }
-        public UserPage(User user, Page previousPage)
+        public User CurrentLoggedInUser { get; set; }
+        public UserPage(User user, Page previousPage, User loggedUser)
         {
             this.User = user;
             this.previousPage = previousPage;
+            this.CurrentLoggedInUser = loggedUser;
             InitializeComponent();
             NameTextBlock.Text = this.User.Name;
             SurnameTextBlock.Text = this.User.Surname;
@@ -100,14 +102,14 @@ namespace ClientApp.pages
 
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke joke)
         {
-            JokePage userPage = new JokePage(joke, this);
-            NavigationService.Navigate(userPage);
+            JokePage jokePage = new JokePage(joke, this, this.CurrentLoggedInUser);
+            NavigationService.Navigate(jokePage);
         }
 
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment comment)
         {
-            CommentPage userPage = new CommentPage(comment, this);
-            NavigationService.Navigate(userPage);
+            CommentPage commentPage = new CommentPage(comment, this);
+            NavigationService.Navigate(commentPage);
         }
     }
 }
