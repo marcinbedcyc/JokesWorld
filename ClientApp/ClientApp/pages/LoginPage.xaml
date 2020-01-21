@@ -13,11 +13,11 @@
         <Label Content="Wprowadź swój login i hasło, aby się zalogować." Margin="15,0,10,10" FontSize="10" FontFamily="Global User Interface" Padding="0"></Label>
         <StackPanel Orientation="Horizontal" Margin="10,130,10,0">
             <Label Content="LOGIN:" Width="55" FontWeight="Bold" Margin="0,0,8,0" FontFamily="Global User Interface"></Label>
-            <TextBox x:Name="LoginTextBox" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface"></TextBox>
+            <TextBox x:Name="LoginTextBox" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface" KeyDown="SearchTextBox_KeyDown"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10">
             <Label Content="HASŁO:" Width="55" FontWeight="Bold" Margin="0,0,8,0" FontFamily="Global User Interface"></Label>
-            <PasswordBox x:Name="PasswordField" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface"></PasswordBox>
+            <PasswordBox x:Name="PasswordField" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface" KeyDown="SearchTextBox_KeyDown"></PasswordBox>
         </StackPanel>
         <Button x:Name="LoginButton" Margin="0,5,30,0" Content="LOGIN" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Width="80" Height="35" Background="#CC04126C" Foreground="White" FontSize="12" FontFamily="Global User Interface" FontWeight="Bold" Click="LoginButton_Click"/>
         <StackPanel Orientation="Horizontal" Margin="10,80,10,0">

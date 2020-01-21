@@ -71,5 +71,13 @@ namespace ClientApp.pages
         {
             Application.Current.Shutdown();
         }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                LoginButton_Click(this, new RoutedEventArgs());
+            }
+        }
     }
 }
