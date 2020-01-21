@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
 using ClientApp.models;
+using System.Configuration;
 
 namespace ClientApp
 {
@@ -35,7 +36,7 @@ namespace ClientApp
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users/nickname/" + nicknameField.Text);
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/nickname/" + nicknameField.Text);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 

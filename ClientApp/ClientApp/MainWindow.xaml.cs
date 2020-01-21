@@ -66,10 +66,12 @@ namespace ClientApp
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsPage settingsPage = new SettingsPage()
-            {
-                CurrentLoggedInUser = this.CurrentLoggedInUser
-            };
+            //MessageBox.Show(this.CurrentLoggedInUser.Name);
+            SettingsPage settingsPage = new SettingsPage(this.CurrentLoggedInUser);
+            //settingsPage.CurrentLoggedInUser = this.CurrentLoggedInUser;
+            //{
+            //    CurrentLoggedInUser = this.CurrentLoggedInUser
+            //};
             ContentFrame.Navigate(settingsPage);
         }
 

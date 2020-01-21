@@ -4,6 +4,7 @@ using ClientApp.pages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -50,7 +51,7 @@ namespace ClientApp
             List<User> users = new List<User>();
             try
             {
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users/");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 users = JsonConvert.DeserializeObject<List<User>>(responseBody);
@@ -92,7 +93,7 @@ namespace ClientApp
 
                 content.Headers.Remove("Content-Type");
                 content.Headers.Add("Content-Type", "application/json");
-                HttpResponseMessage response = await client.PutAsync("https://localhost:44377/api/users/" + CurrentLoggedInUser.Id, content);
+                HttpResponseMessage response = await client.PutAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + CurrentLoggedInUser.Id, content);
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException ex)
@@ -107,7 +108,7 @@ namespace ClientApp
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users/" + CurrentLoggedInUser.Id + "/comments");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + CurrentLoggedInUser.Id + "/comments");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -133,7 +134,7 @@ namespace ClientApp
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users/" + CurrentLoggedInUser.Id + "/jokes");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + CurrentLoggedInUser.Id + "/jokes");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 

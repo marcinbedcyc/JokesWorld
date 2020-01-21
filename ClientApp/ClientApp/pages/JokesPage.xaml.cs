@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClientApp.addWindows;
-
+using System.Configuration;
 
 namespace ClientApp
 {
@@ -41,7 +41,7 @@ namespace ClientApp
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/jokes");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -68,7 +68,7 @@ namespace ClientApp
             {
                 ScrollContentWrapPanel.Children.RemoveRange(6, ScrollContentWrapPanel.Children.Count - 6);
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response =  await client.GetAsync("https://localhost:44377/api/jokes/search/" + SearchTextBox.Text);
+                HttpResponseMessage response =  await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/search/" + SearchTextBox.Text);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
