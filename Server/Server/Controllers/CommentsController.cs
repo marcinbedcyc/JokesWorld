@@ -38,6 +38,12 @@ namespace Server.Controllers
                 return comments.Take(comments.Count).ToList();
         }
 
+        [HttpGet("search/{text}")]
+        public async Task<ActionResult<IEnumerable<Comment>>> GetAllJokesAbout(string text)
+        {
+            return await _context.Comments.Where(j => j.Content.ToLower().Contains(text.ToLower())).ToListAsync();
+        }
+
         // GET: api/Comments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(int id)

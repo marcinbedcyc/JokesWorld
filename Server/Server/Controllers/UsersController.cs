@@ -88,6 +88,12 @@ namespace Server.Controllers
             return await _context.Jokes.Where(j => j.AuthorFK == id).ToListAsync();
         }
 
+        [HttpGet("search/{text}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersAbout(string text)
+        {
+            return await _context.Users.Where(u => (u.Nickname + u.Name + u.Surname + u.Email).ToLower().Contains(text.ToLower())).ToListAsync();
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
