@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Newtonsoft.Json;
 using ClientApp.models;
 using System.Configuration;
+using ClientApp.pages;
 
 namespace ClientApp
 {
@@ -27,49 +28,13 @@ namespace ClientApp
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             InitializeComponent();
+            LoginPage startPage = new LoginPage();
+            ContentFrame.Navigate(startPage);
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            LoginButton.IsEnabled = false;
-            LoginButton.Content = "Loading...";
-            try
-            {
-                HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/nickname/" + nicknameField.Text);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                User account = JsonConvert.DeserializeObject<User>(responseBody);
-
-                Console.WriteLine(account.Password);
-                // james@example.com
-                if (BCrypt.Net.BCrypt.Verify(passwordField.Password, account.Password))
-                {
-                    MainWindow newWindow = new MainWindow()
-                    {
-                        CurrentLoggedInUser = account,
-                    };
-                    newWindow.Show();
-                    this.Close();
-                }
-                else { 
-                    status.Content = "Wrong";
-                    LoginButton.IsEnabled = true;
-                    LoginButton.Content = "Login";
-                }
-
-
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", ex.Message);
-                //MessageBoxResult result = MessageBox.Show(ex.Message);
-                LoginButton.IsEnabled = true;
-                LoginButton.Content = "Login";
-                status.Content = "Wrong";
-            }
+            DragMove();
         }
     }
 }

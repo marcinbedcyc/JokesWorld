@@ -6,68 +6,16 @@
         xmlns:local="clr-namespace:ClientApp"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="JokesWorld" Height="400" Width="695">
-    <Grid>
+        Title="JokesWorld" Height="500" Width="600" WindowStyle="None">
+    <Grid MouseDown="Grid_MouseDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="2" Margin="0.2,0,-0.4,0" Source="19523_en_1.jpg" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1.75"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Rectangle Grid.Column="2" Opacity="0.5">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0.224"/>
-                    <GradientStop Color="#FF575656" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Grid Grid.Column="0" Grid.RowSpan="100">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5" MappingMode="RelativeToBoundingBox">
-                    <GradientStop Color="#FF6FB4E5"/>
-                    <GradientStop Color="#FFF776A9" Offset="0.977"/>
-                    <GradientStop Color="#FFA8BBCE" Offset="0.293"/>
-                    <GradientStop Color="#FFDCB1CE" Offset="0.626"/>
-
-                </LinearGradientBrush>
-            </Grid.Background>
-            
-            <Grid Grid.Row="0" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Nickname" HorizontalAlignment="Right" Margin="0" Grid.Row="1" VerticalAlignment="Top"/>
-                <TextBox x:Name="nicknameField" Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" MinWidth="100" Background="Transparent" BorderBrush="Black" SelectionBrush="Black" FontSize="15" AutomationProperties.HelpText="Enter your password"/>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Password" HorizontalAlignment="Right" Margin="0" Grid.Row="1" VerticalAlignment="Top"/>
-                <PasswordBox x:Name="passwordField" Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" MinWidth="100" Background="Transparent" BorderBrush="Black" SelectionBrush="Black" FontSize="15" AutomationProperties.HelpText="Enter your password"/>
-                <Label x:Name="status" Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="23,95,0,0" VerticalAlignment="Top"/>
-            </Grid>
-            <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="156,45.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-
-
-        </Grid>
-        
-
+        <Image Grid.Column="0" Opacity="1" Margin="0,0,0,0" Source="baloon.png" Stretch="Fill"/>
+        <TextBlock Text="Jokes World" Margin="30,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Ink Free" Foreground="White" FontSize="34" FontWeight="Bold" TextDecorations="{x:Null}"/>
+        <TextBlock Text="Dowcipy na okrągło!" Margin="40,340,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Georgia" Foreground="White" FontSize="14" TextDecorations="{x:Null}"/>
+        <Frame x:Name="ContentFrame" Grid.Column="1" Source="/pages/LoginPage.xaml" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"  NavigationUIVisibility="Hidden" Background="White"/>
+        <Image Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="246,252,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

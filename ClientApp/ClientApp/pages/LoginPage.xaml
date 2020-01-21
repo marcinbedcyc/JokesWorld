@@ -1,0 +1,29 @@
+﻿<Page x:Class="ClientApp.pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="300"
+      Title="LoginPage">
+
+    <StackPanel Orientation="Vertical" Background="White" >
+        <Label Content="LOGOWANIE" Margin="15,40,15,0" FontSize="35" FontWeight="Bold" FontFamily="Global User Interface" Padding="0"></Label>
+        <Label Content="Wprowadź swój login i hasło, aby się zalogować." Margin="15,0,10,10" FontSize="10" FontFamily="Global User Interface" Padding="0"></Label>
+        <StackPanel Orientation="Horizontal" Margin="10,130,10,0">
+            <Label Content="LOGIN:" Width="55" FontWeight="Bold" Margin="0,0,8,0" FontFamily="Global User Interface"></Label>
+            <TextBox x:Name="LoginTextBox" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Label Content="HASŁO:" Width="55" FontWeight="Bold" Margin="0,0,8,0" FontFamily="Global User Interface"></Label>
+            <PasswordBox x:Name="PasswordField" MaxWidth="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Global User Interface"></PasswordBox>
+        </StackPanel>
+        <Button x:Name="LoginButton" Margin="0,5,30,0" Content="LOGIN" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Width="80" Height="35" Background="#CC04126C" Foreground="White" FontSize="12" FontFamily="Global User Interface" FontWeight="Bold" Click="LoginButton_Click"/>
+        <StackPanel Orientation="Horizontal" Margin="10,80,10,0">
+            <Label Content="Nie masz jeszcze konta, zarejstruj " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0" FontSize="10" FontFamily="Global User Interface" Padding="0"></Label>
+            <Button x:Name="RegisterButton" Content="tutaj" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand"  BorderBrush="#00D73FE6" Background="#00D73FE6" Foreground="#e336e3" FontSize="12" FontFamily="Global User Interface" Click="RegisterButton_Click" />
+        </StackPanel>
+        <Button x:Name="ExitButton" Margin="30,5,0,0" Content="WYJŚCIE" VerticalAlignment="Center" HorizontalAlignment="Left" Cursor="Hand" Width="70" Height="25" Background="#CCa3022f" Foreground="White" FontSize="10" FontFamily="Global User Interface" FontWeight="Bold" Click="ExitButton_Click"/>
+    </StackPanel>
+</Page>
