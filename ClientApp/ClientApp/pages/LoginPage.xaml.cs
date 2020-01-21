@@ -63,7 +63,7 @@ namespace ClientApp.pages
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            RegisterPage startPage = new RegisterPage();
+            RegisterPage startPage = new RegisterPage(this);
             NavigationService.Navigate(startPage);
         }
 
