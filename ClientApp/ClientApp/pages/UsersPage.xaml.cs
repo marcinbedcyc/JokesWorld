@@ -57,14 +57,14 @@ namespace ClientApp
                 var users = JsonConvert.DeserializeObject<List<User>>(responseBody);
                 foreach (User u in users)
                 {
-                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_joke");
+                    response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + u.Id + "/last_joke");
                     responseBody = await response.Content.ReadAsStringAsync();
                     var joke = JsonConvert.DeserializeObject<Joke>(responseBody);
                     string jokeContent;
                     if (joke.Content is null) jokeContent = "Brak";
                     else jokeContent = joke.Content;
 
-                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_comment");
+                    response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + u.Id + "/last_comment");
                     responseBody = await response.Content.ReadAsStringAsync();
                     var comment = JsonConvert.DeserializeObject<Comment>(responseBody);
                     string commentContent;
@@ -92,7 +92,7 @@ namespace ClientApp
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/users");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -100,14 +100,14 @@ namespace ClientApp
                 var users = JsonConvert.DeserializeObject<List<User>>(responseBody);
                 foreach (User u in users)
                 {
-                    response = await client.GetAsync("https://localhost:44377/api/users/"+ u.Id + "/last_joke");
+                    response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + u.Id + "/last_joke");
                     responseBody = await response.Content.ReadAsStringAsync();
                     var joke = JsonConvert.DeserializeObject<Joke>(responseBody);
                     string jokeContent;
                     if (joke.Content is null) jokeContent = "Brak";
                     else jokeContent = joke.Content;
 
-                    response = await client.GetAsync("https://localhost:44377/api/users/" + u.Id + "/last_comment");
+                    response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + u.Id + "/last_comment");
                     responseBody = await response.Content.ReadAsStringAsync();
                     var comment = JsonConvert.DeserializeObject<Comment>(responseBody);
                     string commentContent;

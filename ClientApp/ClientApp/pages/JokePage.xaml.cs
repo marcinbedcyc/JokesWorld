@@ -50,7 +50,7 @@ namespace ClientApp.pages
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users/" + joke.AuthorFK);
+                HttpResponseMessage response = await client.GetAsync(System.Configuration.ConfigurationManager.AppSettings["ServerURL"] + "users/" + joke.AuthorFK);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -68,7 +68,7 @@ namespace ClientApp.pages
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/jokes/" + joke.Id + "/comments");
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "jokes/" + joke.Id + "/comments");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
