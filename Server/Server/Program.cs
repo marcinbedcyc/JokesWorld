@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,9 @@ namespace Server
     {
         public static void Main(string[] args)
         {
+            string source = "JokesWorldSource";
+            string log = "JokesWorldLog";            
+            if (!EventLog.SourceExists(source)) { EventLog.CreateEventSource(source, log );}
             CreateHostBuilder(args).Build().Run();
         }
 
