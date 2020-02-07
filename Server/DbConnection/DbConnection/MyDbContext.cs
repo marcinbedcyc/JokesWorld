@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace DbConnection
@@ -12,7 +14,10 @@ namespace DbConnection
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("Data Source=mydb.db");
+        //=> options.UseSqlite("Data Source=C:\\Users\\Marcin\\Desktop\\JokesWorld\\Server\\Server\\mydb.db");
+        => options.UseSqlite("Data Source=mydb.db");
+        //=> options.UseSqlite("Data Source=" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\") + "\\mydb.db");
+        //=> options.UseSqlite("Data Source=:memory:");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 

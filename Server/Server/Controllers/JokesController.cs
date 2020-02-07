@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DbConnection;
 using System.Diagnostics;
+using System.IO;
 
 namespace Server.Controllers
 {
@@ -33,6 +34,18 @@ namespace Server.Controllers
         {
             jokesWorldLog.WriteEntry(string.Format("Get all jokes from remote IP addres: {0}", Request.HttpContext.Connection.RemoteIpAddress));
             return await _context.Jokes.ToListAsync();
+        }
+
+        [HttpGet("process_dir")]
+        public string Get1()
+        {
+            return Process.GetCurrentProcess().MainModule.FileName.ToString();
+        }
+
+        [HttpGet("current_dir")]
+        public string Get2()
+        {
+            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\");
         }
 
         [HttpGet("last_ones")]
@@ -69,12 +82,12 @@ namespace Server.Controllers
             return await _context.Comments.Where(c => c.JokeFK == id).ToListAsync();
         }
 
-        [HttpGet("random")]
-        public async Task<ActionResult<Joke>> GetRandomJoke()
-        {
-            //return await _context.Jokes.FindAsync(1);
-            return NotFound();
-        }
+        //[HttpGet("random")]
+        //public async Task<ActionResult<Joke>> GetRandomJoke()
+        //{
+        //    //return await _context.Jokes.FindAsync(1);
+        //    return NotFound();
+        //}
 
         [HttpGet("search/{title}")]
         public async Task<ActionResult<IEnumerable<Joke>>> GetAllJokesAbout(string title)

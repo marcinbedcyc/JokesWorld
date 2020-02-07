@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Marcin\Desktop\JokesWorld\ClientApp\ClientApp\App.xaml
-101829006308
+151787687409
 
-191315663877
-18146557234
-addWindows\AddJokeWindow.xaml;pages\CommentPage.xaml;pages\CommentsPage.xaml;pages\JokePage.xaml;pages\JokesPage.xaml;LoginWindow.xaml;pages\SettingsPage.xaml;pages\StartPage.xaml;pages\UsersPage.xaml;MainWindow.xaml;
+243059061
+26-684476162
+addWindows\AddJokeWindow.xaml;editWindows\CommentEditWindow.xaml;editWindows\JokeEditWindow.xaml;pages\CommentPage.xaml;pages\CommentsPage.xaml;pages\JokePage.xaml;pages\JokesPage.xaml;LoginWindow.xaml;pages\LoginPage.xaml;pages\RegisterPage.xaml;pages\SettingsPage.xaml;pages\StartPage.xaml;pages\UserPage.xaml;pages\UsersPage.xaml;MainWindow.xaml;
 
 True
 

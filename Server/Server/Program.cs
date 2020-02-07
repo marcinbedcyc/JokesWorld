@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,7 +20,31 @@ namespace Server
             string source = "JokesWorldSource";
             string log = "JokesWorldLog";            
             if (!EventLog.SourceExists(source)) { EventLog.CreateEventSource(source, log );}
-            CreateHostBuilder(args).Build().Run();
+
+            //CreateHostBuilder(args).Build().Run();
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var pathToContentRoot = Directory.GetCurrentDirectory();
+            var webHostArgs = args.Where(arg => arg != "--console").ToArray();
+
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                pathToContentRoot = Path.GetDirectoryName(pathToExe);
+            }
+
+            var host = WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(pathToContentRoot)
+                .UseStartup<Startup>()
+                .Build();
+
+            if (isService)
+            {
+                host.RunAsService();
+            }
+            else
+            {
+                host.Run();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
