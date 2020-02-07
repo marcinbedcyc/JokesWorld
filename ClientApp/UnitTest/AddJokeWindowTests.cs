@@ -24,37 +24,37 @@ namespace ClientApp.addWindows.Tests
         [TestMethod()]
         public void CheckNewJokeTitleCorrectTest()
         {
-            Assert.AreEqual(true, addJokeWindow.CheckNewJokeTitle(testingString));
+            Assert.IsTrue(addJokeWindow.CheckNewJokeTitle(testingString));
         }
 
         [TestMethod()]
         public void CheckNewJokeTitleFailTest()
         {
-            Assert.AreEqual(false, addJokeWindow.CheckNewJokeTitle(emptyString));
+            Assert.IsFalse(addJokeWindow.CheckNewJokeTitle(emptyString));
         }
 
         [TestMethod()]
         public void CheckNewJokeContentCorrectTest()
         {
-            Assert.AreEqual(true, addJokeWindow.CheckNewJokeContent(testingString));
+            Assert.IsTrue(addJokeWindow.CheckNewJokeContent(testingString));
         }
 
         [TestMethod()]
         public void CheckNewJokeContentFailTest()
         {
-            Assert.AreEqual(false, addJokeWindow.CheckNewJokeContent(emptyString));
+            Assert.IsFalse(addJokeWindow.CheckNewJokeContent(emptyString));
         }
 
         [TestMethod()]
         public void CheckUniqueJokeContentFailTest()
         {
-            Assert.AreEqual(false, addJokeWindow.CheckUniqueJokeContent(jokes, testingString));
+            Assert.IsFalse(addJokeWindow.CheckUniqueJokeContent(jokes, testingString));
         }
 
         [TestMethod()]
         public void CheckUniqueJokeContentCorrectTest()
         {
-            Assert.AreEqual(true, addJokeWindow.CheckUniqueJokeContent(jokes, "Unique string"));
+            Assert.IsTrue(addJokeWindow.CheckUniqueJokeContent(jokes, "Unique string"));
         }
     }
 }
