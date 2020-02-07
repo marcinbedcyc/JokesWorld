@@ -20,7 +20,7 @@ using ClientApp.pages;
 namespace ClientApp
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Interaction logic for LoginWindow.xaml
     /// </summary>
     public partial class LoginWindow : Window
     {
@@ -32,6 +32,11 @@ namespace ClientApp
             ContentFrame.Navigate(startPage);
         }
 
+        /// <summary>
+        /// Allow LoginWindow move  with dragginf mouse.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();

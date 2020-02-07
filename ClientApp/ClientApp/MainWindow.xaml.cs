@@ -18,10 +18,13 @@ using System.Windows.Shapes;
 namespace ClientApp
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public MainWindow(User user)
         {
@@ -32,16 +35,11 @@ namespace ClientApp
             ContentFrame.Navigate(startPage);
         }
 
-        private void PowerButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void TitleBarGrid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
+        /// <summary>
+        /// Logging our from application.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
@@ -49,6 +47,11 @@ namespace ClientApp
             this.Close();
         }
 
+        /// <summary>
+        /// Open all users page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void UsersButton_Click(object sender, RoutedEventArgs e)
         {
             UsersPage usersPage = new UsersPage()
@@ -58,18 +61,33 @@ namespace ClientApp
             ContentFrame.Navigate(usersPage);
         }
 
+        /// <summary>
+        /// Open home page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             StartPage startPage = new StartPage(this.CurrentLoggedInUser);
             ContentFrame.Navigate(startPage);
         }
 
+        /// <summary>
+        /// Open setting page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsPage settingsPage = new SettingsPage(this.CurrentLoggedInUser);
             ContentFrame.Navigate(settingsPage);
         }
 
+        /// <summary>
+        /// Open all jokes page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void JokesButton_Click(object sender, RoutedEventArgs e)
         {
             JokesPage jokesPage = new JokesPage()
@@ -79,6 +97,11 @@ namespace ClientApp
             ContentFrame.Navigate(jokesPage);
         }
 
+        /// <summary>
+        /// Open all comments page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void CommentsButton_Click(object sender, RoutedEventArgs e)
         {
             CommentsPage commentsPage = new CommentsPage()

@@ -29,6 +29,11 @@ namespace ClientApp.pages
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Make Http request to server to get user object. Check password's correctness and logging to application. When something goes wrong showy messagebos with information.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             LoginButton.IsEnabled = false;
@@ -61,17 +66,33 @@ namespace ClientApp.pages
                 }
         }
 
+        /// <summary>
+        /// Open Page with Registration form
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             RegisterPage startPage = new RegisterPage(this);
             NavigationService.Navigate(startPage);
         }
 
+        /// <summary>
+        /// Exit Application
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Logging into the application
+        /// </summary>
+        /// <seealso cref="LoginPage.LoginButton_Click"/>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

@@ -23,6 +23,9 @@ namespace ClientApp.addWindows
     /// </summary>
     public partial class AddJokeWindow : Window
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public AddJokeWindow()
         {

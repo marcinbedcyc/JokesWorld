@@ -17,9 +17,15 @@ using System.Windows.Shapes;
 
 namespace ClientApp
 {
+    /// <summary>
+    /// Static class with WPF Utils.
+    /// </summary>
     public static class Utils
     {
-
+        /// <summary>
+        /// Create long empty label which can be used as filling on page/window.
+        /// </summary>
+        /// <returns>Long empty label</returns>
         public static Label LongEmptyLabel()
         {
             Label label = new Label()
@@ -28,6 +34,14 @@ namespace ClientApp
             };
             return label;
         }
+        
+        /// <summary>
+        /// Create box with rounded corner, nice looking with informataion about joke.
+        /// </summary>
+        /// <param name="joke">Joke object.</param>
+        /// <param name="isPink">Set background color pink if true else set blue.</param>
+        /// <param name="OnClick">RoutedEventHandler which defines action on click joke box.</param>
+        /// <returns>Grid with information about joke.</returns>
         public static Grid CreateJokeContentGrid(Joke joke, bool isPink, RoutedEventHandler OnClick)
         {
             var jokeGrid = new Grid
@@ -112,6 +126,13 @@ namespace ClientApp
             return jokeGrid;
         }
 
+        /// <summary>
+        /// Create box with rounded corner, nice looking with informataion about comment.
+        /// </summary>
+        /// <param name="comment">Comment object.</param>
+        /// <param name="isPink">Set background color pink if true else set blue.</param>
+        /// <param name="OnClick">RoutedEventHandler which defines action on click comment box.</param>
+        /// <returns>Grid with information about comment.</returns>
         public static Grid CreateCommentContentGrid(Comment comment, bool isPink, RoutedEventHandler OnClick)
         {
             var jokeGrid = new Grid
@@ -186,6 +207,13 @@ namespace ClientApp
             return jokeGrid;
         }
 
+        /// <summary>
+        /// Create box with rounded corner, nice looking with informataion about user.
+        /// </summary>
+        /// <param name="comment">User object.</param>
+        /// <param name="isPink">Set background color pink if true else set blue.</param>
+        /// <param name="OnClick">RoutedEventHandler which defines action on click user box.</param>
+        /// <returns>Grid with information about user.</returns>
         public static Grid CreateUserContentGrid(User user, string comment, string joke, bool isPink, RoutedEventHandler OnClick)
         {
             var userGrid = new Grid
@@ -325,6 +353,10 @@ namespace ClientApp
             return userGrid;
         }
 
+        /// <summary>
+        /// Create TextBlock control with 'BRAK' text. Using when object doesn't exist in db.
+        /// </summary>
+        /// <returns>TextBlock with 'BRAK' text.</returns>
         public static TextBlock LackTextBox()
         {
             TextBlock lackTextBox = new TextBlock
