@@ -23,8 +23,17 @@ namespace ClientApp.editWindows
     /// </summary>
     public partial class CommentEditWindow : Window
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
+
+        /// <summary>
+        /// Comment which is editing.
+        /// </summary>
         public Comment CurrentComment { get; set; }
+
+        public CommentEditWindow() { }
         public CommentEditWindow(User user, Comment comment)
         {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -35,15 +44,25 @@ namespace ClientApp.editWindows
             CreatedDatePicker.SelectedDate = CurrentComment.CreatedDate;
         }
 
+        /// <summary>
+        /// Cancel editing comment.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Save changes in comment when everythins is correct typed in.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CreatedDatePicker.SelectedDate > DateTime.Now) { MessageBox.Show("Wybierz wcześniejszą datę!"); return; }
-            if (ContentTextBox.Text.Trim().Equals("")) { MessageBox.Show("Brak treści docipu!"); return; }
+            if (!IsPreviousDate(CreatedDatePicker.SelectedDate)) { MessageBox.Show("Wybierz wcześniejszą datę!"); return; }
+            if (IsContentEmpty(ContentTextBox.Text.Trim())) { MessageBox.Show("Brak treści docipu!"); return; }
 
             CurrentComment.Content = ContentTextBox.Text;
             CurrentComment.CreatedDate = (DateTime)CreatedDatePicker.SelectedDate;
@@ -67,6 +86,11 @@ namespace ClientApp.editWindows
             this.Close();
         }
 
+        /// <summary>
+        /// Deleting current comment.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event</param>
+        /// <param name="e">Event Data</param>
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -81,6 +105,32 @@ namespace ClientApp.editWindows
             }
             MessageBox.Show("Komentarz został usunięty!");
             this.Close();
+        }
+
+        /// <summary>
+        /// Check if passing date is before now.
+        /// </summary>
+        /// <param name="date">Comment's date.</param>
+        /// <returns>True if date was earlier than today.</returns>
+        public bool IsPreviousDate(DateTime? date)
+        {
+            if (date is null || date > DateTime.Now)
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// Check content is empty.
+        /// </summary>
+        /// <param name="content">String value of comment's content.</param>
+        /// <returns>True if conent is empty.</returns>
+        public bool IsContentEmpty(string content)
+        {
+            if (content.Equals(""))
+                return true;
+            else
+                return false;
         }
     }
 }
