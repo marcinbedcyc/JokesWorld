@@ -26,8 +26,17 @@ namespace ClientApp.pages
     
     public partial class UserPage : Page
     {
+        /// <summary>
+        /// Keep information abouit previous page.
+        /// </summary>
         readonly Page previousPage;
+        /// <summary>
+        /// Current user.
+        /// </summary>
         public User User { get; set; }
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public UserPage(User user, Page previousPage, User loggedUser)
         {
@@ -43,11 +52,19 @@ namespace ClientApp.pages
             GetJokes();
         }
 
+        /// <summary>
+        /// Navigate to previous page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(previousPage);
         }
 
+        /// <summary>
+        /// Send http request to get user's comments and put information in controls.
+        /// </summary>
         async private void GetComments()
         {
             try
@@ -74,6 +91,9 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Send http request to get user's jokes and put information in controls.
+        /// </summary>
         async private void GetJokes()
         {
             try
@@ -100,12 +120,24 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Navigate to joke's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="joke">Joke. Detail page will be opened about it.</param>
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke joke)
         {
             JokePage jokePage = new JokePage(joke, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(jokePage);
         }
 
+        /// <summary>
+        /// Navigate to comment's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="comment">Comment. Detail page will be opened about it.</param>
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment comment)
         {
             CommentPage commentPage = new CommentPage(comment, this);
