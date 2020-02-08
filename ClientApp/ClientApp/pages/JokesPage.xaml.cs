@@ -26,7 +26,10 @@ namespace ClientApp
     /// Interaction logic for JokesPage.xaml
     /// </summary>
     public partial class JokesPage : Page
-    { 
+    {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
 
         public JokesPage()
@@ -35,6 +38,9 @@ namespace ClientApp
             Reload();
         }
 
+        /// <summary>
+        /// Refresh information on page. Send http request to get all available jokes.
+        /// </summary>
         async void Reload()
         {
             ScrollContentWrapPanel.Children.RemoveRange(6, ScrollContentWrapPanel.Children.Count - 6);
@@ -62,6 +68,11 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Get text from SearchTextBox and send searching http reuqest. Result will fill controls.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -91,6 +102,12 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Search action when enter is pressed when focus on SearchTextBox.
+        /// </summary>
+        /// <seealso cref="JokesPage.SearchButton_Click"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -99,21 +116,38 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Open new window where user can add new joke.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddJokeWindow newWindow1 = new AddJokeWindow()
+            AddJokeWindow addJokeWindow = new AddJokeWindow()
             {
                 CurrentLoggedInUser = this.CurrentLoggedInUser,
             };
-            newWindow1.Show();
+            addJokeWindow.Show();
         }
 
+        /// <summary>
+        /// Navigate to joke's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="j">Joke. Detail page will be opened about it.</param>
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke j)
         {
             JokePage jokePage = new JokePage(j, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(jokePage);
         }
 
+        /// <summary>
+        /// Refresh information on page.
+        /// </summary>
+        /// <seealso cref="JokesPage.Reload"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             Reload();

@@ -34,6 +34,9 @@ namespace ClientApp.pages
             Reload();
         }
 
+        /// <summary>
+        /// Refresh information on page. Send http request to get all available comments.
+        /// </summary>
         async void Reload()
         {
             try
@@ -107,7 +110,7 @@ namespace ClientApp.pages
         }
 
         /// <summary>
-        /// Search action when enter is pressed when focus on SearchTextBox"
+        /// Search action when enter is pressed when focus on SearchTextBox.
         /// </summary>
         /// <seealso cref="CommentsPage.SearchButton_Click"/>
         /// <param name="sender">The control/object that raised the event.</param>
