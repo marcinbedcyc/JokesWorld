@@ -10,12 +10,24 @@ using System.Diagnostics;
 
 namespace Server.Controllers
 {
+    /// <summary>
+    /// CommentsController. Configuration of urls.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        /// <summary>
+        /// Database's context.
+        /// </summary>
         private readonly MyDbContext _context;
+        /// <summary>
+        /// Name of EventLog's source.
+        /// </summary>
         private readonly string source = "JokesWorldSource";
+        /// <summary>
+        /// EventLog object to log information who and what get from sever.
+        /// </summary>
         private readonly EventLog jokesWorldLog;
 
         public CommentsController(MyDbContext context)
@@ -27,7 +39,10 @@ namespace Server.Controllers
             };
         }
 
-        // GET: api/Comments
+        /// <summary>
+        /// GET: api/comments - get all comments from database and log information to LogEvent.
+        /// </summary>
+        /// <returns>All comments from database as JSON.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
@@ -35,6 +50,10 @@ namespace Server.Controllers
             return await _context.Comments.ToListAsync();
         }
 
+        /// <summary>
+        /// GET: api/comments/last_ones - get ten recently added comments and log information to LogEvent.
+        /// </summary>
+        /// <returns>Ten recently added comments as JSON.</returns>
         [HttpGet("last_ones")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetLastComments()
         {
@@ -47,6 +66,11 @@ namespace Server.Controllers
                 return comments.Take(comments.Count).ToList();
         }
 
+        /// <summary>
+        /// GET: api/comments/search/{text} - get matching comments to searching text and log informataion to logEvent. 
+        /// </summary>
+        /// <param name="text">Searching text.</param>
+        /// <returns>Matching comments to searching text as JSON.</returns>
         [HttpGet("search/{text}")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetAllJokesAbout(string text)
         {
@@ -54,7 +78,11 @@ namespace Server.Controllers
             return await _context.Comments.Where(j => j.Content.ToLower().Contains(text.ToLower())).ToListAsync();
         }
 
-        // GET: api/Comments/5
+        /// <summary>
+        /// GET: api/comments/{id} - get single comment with id passed in parameter and log information to logEvent.
+        /// </summary>
+        /// <param name="id">Comment's id.</param>
+        /// <returns>Comment with id passed in parameter if found as JSON else NotFound.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(int id)
         {
@@ -69,9 +97,12 @@ namespace Server.Controllers
             return comment;
         }
 
-        // PUT: api/Comments/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// PUT: /api/comments/id - edit comment with id passed in parameter.
+        /// </summary>
+        /// <param name="id">Comment's id to edit.</param>
+        /// <param name="comment">New values for comment</param>
+        /// <returns>No Content if everything ok. NotFound if comment with passed id doesn't exist.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, Comment comment)
         {
@@ -102,9 +133,12 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Comments
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// POST: /api/comments - add new comment to databse.
+        /// </summary>
+        /// <param name="comment">Values for new comments.</param>
+        /// <returns>Newly added comment as JSON.</returns>
+        /// <seealso cref="CommentsController.GetComment"/>
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
@@ -115,7 +149,11 @@ namespace Server.Controllers
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
-        // DELETE: api/Comments/5
+        /// <summary>
+        /// DELETE: /api/comments/{id} - delete from database comment with id passed in parameter.
+        /// </summary>
+        /// <param name="id">Comment's id</param>
+        /// <returns>NotFound if comment with passed id doesn't exist else removed comment as JSON.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)
         {
@@ -132,6 +170,11 @@ namespace Server.Controllers
             return comment;
         }
 
+        /// <summary>
+        /// Looking for comment with id passed in parameter in database.
+        /// </summary>
+        /// <param name="id">Comment's id.</param>
+        /// <returns>True if comment with passed id exists in database else false.</returns>
         private bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.Id == id);

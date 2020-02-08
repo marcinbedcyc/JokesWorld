@@ -10,12 +10,24 @@ using System.Diagnostics;
 
 namespace Server.Controllers
 {
+    /// <summary>
+    /// UsersController. Configuration of urls.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        /// <summary>
+        /// Database's context.
+        /// </summary>
         private readonly MyDbContext _context;
+        /// <summary>
+        /// Name of EventLog's source.
+        /// </summary>
         private readonly string source = "JokesWorldSource";
+        /// <summary>
+        /// EventLog object to log information who and what get from sever.
+        /// </summary>
         private readonly EventLog jokesWorldLog;
 
         public UsersController(MyDbContext context)
@@ -27,7 +39,10 @@ namespace Server.Controllers
             };
         }
 
-        // GET: api/Users
+        /// <summary>
+        /// GET: api/users - get all available users in database.
+        /// </summary>
+        /// <returns>Enumerable collection with users as JSON.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -35,7 +50,11 @@ namespace Server.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
+        /// <summary>
+        /// GET: api/users/{id} - get user with id passed in parameter.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>User with id passed in parameter if found as JSON else NotFound.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -50,6 +69,11 @@ namespace Server.Controllers
             return user;
         }
 
+        /// <summary>
+        /// GET: api/users/nickname/{nickname} - get user with nickname passed in parameter.
+        /// </summary>
+        /// <param name="nickname">User's nickname.</param>
+        /// <returns>User with nickname passed in parameter if found as JSON else NotFound.</returns>
         [HttpGet("nickname/{nickname}")]
         public async Task<ActionResult<User>> GetUserByNickname(string nickname)
         {
@@ -64,6 +88,11 @@ namespace Server.Controllers
             return user;
         }
 
+        /// <summary>
+        /// GET: api/users/{id}/comments - get all user's comments in database.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>Enumerable collection with user's comments as JSON.</returns>
         [HttpGet("{id}/comments")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetUsersComment(int id)
         {
@@ -71,6 +100,11 @@ namespace Server.Controllers
             return await _context.Comments.Where(c => c.AuthorFK == id).ToListAsync();
         }
 
+        /// <summary>
+        /// GET: api/users/{id}/last_comment - get recently added comment by user with id passed in parameter.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>Recently added comment by user as JSON or NotFound.</returns>
         [HttpGet("{id}/last_comment")]
         public async Task<ActionResult<Comment>> GetLastComment(int id)
         {
@@ -78,11 +112,16 @@ namespace Server.Controllers
             var comments = await _context.Comments.Where(c => c.AuthorFK == id).ToListAsync();
             if (comments.Count == 0)
             {
-                return new Comment();
+                return NotFound();
             }
             return comments.OrderByDescending(c => c.CreatedDate).First();
         }
 
+        /// <summary>
+        /// GET: api/users/{id}/last_joke - get recently added joke by user with id passed in parameter.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>Recently added joke by user as JSON or NotFound.</returns>
         [HttpGet("{id}/last_joke")]
         public async Task<ActionResult<Joke>> GetLastJoke(int id)
         {
@@ -90,11 +129,16 @@ namespace Server.Controllers
             var jokes = await _context.Jokes.Where(j => j.AuthorFK == id).ToListAsync();
             if (jokes.Count == 0)
             {
-                return new Joke();
+                return NotFound();
             }
             return jokes.OrderByDescending(j => j.CreatedDate).First();
         }
 
+        /// <summary>
+        /// GET: api/users/{id}/jokes - get all user's jokes in database.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>Enumerable collection with user's jokes as JSON.</returns>
         [HttpGet("{id}/jokes")]
         public async Task<ActionResult<IEnumerable<Joke>>> GetUsersJokes(int id)
         {
@@ -102,6 +146,11 @@ namespace Server.Controllers
             return await _context.Jokes.Where(j => j.AuthorFK == id).ToListAsync();
         }
 
+        /// <summary>
+        /// GET: api/users/search/{text} - get all matching users to searching text passed in parameter.(Searching by name, surname, email and nickname)
+        /// </summary>
+        /// <param name="text">Searching text.</param>
+        /// <returns>Enumerable collection with users matching to searching text as JSON.</returns>
         [HttpGet("search/{text}")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsersAbout(string text)
         {
@@ -109,9 +158,12 @@ namespace Server.Controllers
             return await _context.Users.Where(u => (u.Nickname + u.Name + u.Surname + u.Email).ToLower().Contains(text.ToLower())).ToListAsync();
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// PUT: api/users/{id} - edit user with id passed in parameter.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <param name="user">New values for user.</param>
+        /// <returns>No Content if everything ok. NotFound if user with passed id doesn't exist.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -142,9 +194,12 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// POST: api/jokes - add new joke to database.
+        /// </summary>
+        /// <param name="user">Values for new user.</param>
+        /// <returns>Newly added user as JSON.</returns>
+        /// <seealso cref="UsersController.GetUser"/>
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -155,7 +210,11 @@ namespace Server.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/Users/5
+        /// <summary>
+        /// DELETE: api/users - delete user with id passed in parameter.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>NotFound if user with passed id doesn't exist else removed user as JSON.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
@@ -172,6 +231,11 @@ namespace Server.Controllers
             return user;
         }
 
+        /// <summary>
+        /// Looking for user with id passed in parameter in database.
+        /// </summary>
+        /// <param name="id">User's id.</param>
+        /// <returns>True if user with passed id exists in database else false.</returns>
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);

@@ -11,12 +11,24 @@ using System.IO;
 
 namespace Server.Controllers
 {
+    /// <summary>
+    /// JokesController. Configuration of urls.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class JokesController : ControllerBase
     {
+        /// <summary>
+        /// Database's context.
+        /// </summary>
         private readonly MyDbContext _context;
+        /// <summary>
+        /// Name of EventLog's source.
+        /// </summary>
         private readonly string source = "JokesWorldSource";
+        /// <summary>
+        /// EventLog object to log information who and what get from sever.
+        /// </summary>
         private readonly EventLog jokesWorldLog;
 
         public JokesController(MyDbContext context)
@@ -28,7 +40,10 @@ namespace Server.Controllers
             };
         }
 
-        // GET: api/Jokes
+        /// <summary>
+        /// GET: api/jokes - get all available jokes in database.
+        /// </summary>
+        /// <returns>Enumerable collection with jokes as JSON.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Joke>>> GetJokes()
         {
@@ -36,18 +51,10 @@ namespace Server.Controllers
             return await _context.Jokes.ToListAsync();
         }
 
-        [HttpGet("process_dir")]
-        public string Get1()
-        {
-            return Process.GetCurrentProcess().MainModule.FileName.ToString();
-        }
-
-        [HttpGet("current_dir")]
-        public string Get2()
-        {
-            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\");
-        }
-
+        /// <summary>
+        /// GET: api/jokes/last_ones - get ten recently added jokes in database.
+        /// </summary>
+        /// <returns>Enumerable collection with jokes as JSON(up to 10 objects).</returns>
         [HttpGet("last_ones")]
         public async Task<ActionResult<IEnumerable<Joke>>> GetLastJokes()
         {
@@ -60,7 +67,11 @@ namespace Server.Controllers
                 return jokes.Take(jokes.Count).ToList();
         }
 
-        // GET: api/Jokes/5
+        /// <summary>
+        /// GET: api/jokes/{id} - get joke with id passed in parameter.
+        /// </summary>
+        /// <param name="id">Joke's id.</param>
+        /// <returns>Joke with id passed in parameter if found as JSON else NotFound.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Joke>> GetJoke(int id)
         {
@@ -75,6 +86,11 @@ namespace Server.Controllers
             return joke;
         }
 
+        /// <summary>
+        /// GET: api/jokes/{id}/comments - get joke's (with id passed in parameter) comments.
+        /// </summary>
+        /// <param name="id">Joke's id.</param>
+        /// <returns>Enumerable collection with joke's comments as JSON.</returns>
         [HttpGet("{id}/comments")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetJokesComment(int id)
         {
@@ -82,13 +98,11 @@ namespace Server.Controllers
             return await _context.Comments.Where(c => c.JokeFK == id).ToListAsync();
         }
 
-        //[HttpGet("random")]
-        //public async Task<ActionResult<Joke>> GetRandomJoke()
-        //{
-        //    //return await _context.Jokes.FindAsync(1);
-        //    return NotFound();
-        //}
-
+        /// <summary>
+        /// GET: api/jokes/search/{title} - get jokes with title matching to searching title.
+        /// </summary>
+        /// <param name="title">Searching title.</param>
+        /// <returns>Enumerable collection with matching jokes as JSON.</returns>
         [HttpGet("search/{title}")]
         public async Task<ActionResult<IEnumerable<Joke>>> GetAllJokesAbout(string title)
         {
@@ -96,9 +110,12 @@ namespace Server.Controllers
             return await _context.Jokes.Where(j => j.Title.ToLower().Contains(title.ToLower())).ToListAsync(); 
         }
 
-        // PUT: api/Jokes/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// PUT: api/jokes/{id} - edit joke with id passed in parameter.
+        /// </summary>
+        /// <param name="id">Joke's id.</param>
+        /// <param name="joke">New values for joke.</param>
+        /// <returns>No Content if everything ok. NotFound if joke with passed id doesn't exist.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutJoke(int id, Joke joke)
         {
@@ -129,9 +146,12 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Jokes
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        /// <summary>
+        /// POST: api/jokes - add new joke to database.
+        /// </summary>
+        /// <param name="joke">Values for new joke.</param>
+        /// <returns>Newly added joke as JSON.</returns>
+        /// <seealso cref="JokesController.GetJoke"/>
         [HttpPost]
         public async Task<ActionResult<Joke>> PostJoke(Joke joke)
         {
@@ -142,7 +162,11 @@ namespace Server.Controllers
             return CreatedAtAction("GetJoke", new { id = joke.Id }, joke);
         }
 
-        // DELETE: api/Jokes/5
+        /// <summary>
+        /// DELETE: api/jokes - delete joke with id passed in parameter.
+        /// </summary>
+        /// <param name="id">Joke's id.</param>
+        /// <returns>NotFound if joke with passed id doesn't exist else removed joke as JSON.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Joke>> DeleteJoke(int id)
         {
@@ -159,6 +183,11 @@ namespace Server.Controllers
             return joke;
         }
 
+        /// <summary>
+        /// Looking for joke with id passed in parameter in database.
+        /// </summary>
+        /// <param name="id">Joke's id.</param>
+        /// <returns>True if joke with passed id exists in database else false.</returns>
         private bool JokeExists(int id)
         {
             return _context.Jokes.Any(e => e.Id == id);
