@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -370,6 +371,111 @@ namespace ClientApp
                 Background = new SolidColorBrush(Color.FromArgb(0, 112, 172, 250))
             };
             return lackTextBox;
+        }
+    }
+
+    /// <summary>
+    /// Static class with user's form (registration/edit user's data) utils.
+    /// </summary>
+    public static class UserFormUtils
+    {
+        /// <summary>
+        /// Check if form is fillled properly.
+        /// </summary>
+        /// <param name="name">Name to valid.</param>
+        /// <param name="surname">Surname to valid.</param>
+        /// <param name="email">Email to valid.</param>
+        /// <param name="nickname">Nickname to valid.</param>
+        /// <param name="password">Password to valid.</param>
+        /// <param name="password2">Reapted password to valid.</param>
+        /// <param name="users">List of users in db.</param>
+        /// <returns>True if form is correct.</returns>
+        public static bool CheckForm(string name, string surname, string email, string nickname, string password, string password2, List<User> users)
+        {
+            if (name.Equals("") || surname.Equals("") || email.Equals("") || nickname.Equals("") || password.Equals("") || password2.Equals(""))
+                throw new EmptyFormException();
+            if (users.Where(u => u.Nickname.Equals(nickname)).Any())
+                throw new NicknameAlredyUsedException(nickname);
+            if (!IsValidEMail(email))
+                throw new NotCorrectEmailException(email);
+            if (users.Where(u => u.Email.Equals(email)).Any())
+                throw new EmailAlredyUsedException(email);
+            if (!password.Equals(password2))
+                throw new DiffrentPasswordsException();
+            return true;
+        }
+
+        /// <summary>
+        /// Check if passing e-mail address is valid or not.
+        /// </summary>
+        /// <param name="emailaddress">E-mail address to check.</param>
+        /// <returns>True if address is correct.</returns>
+        public static bool IsValidEMail(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exception for empty input forms.
+    /// </summary>
+    public class EmptyFormException : Exception
+    {
+        public EmptyFormException() :base("Empty input field!")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Exception for already used nickname.
+    /// </summary>
+    public class NicknameAlredyUsedException : Exception
+    {
+        public NicknameAlredyUsedException(string login) : base("User with " + login + " alredy exists!")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Exception for already used email.
+    /// </summary>
+    public class EmailAlredyUsedException : Exception
+    {
+        public EmailAlredyUsedException(string email) : base("User with " + email + " alredy exists!")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Exception for not correct email address.
+    /// </summary>
+    public class NotCorrectEmailException : Exception
+    {
+        public NotCorrectEmailException(string email) : base(email + " is not correct!")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Exception for different passwords.
+    /// </summary>
+    public class DiffrentPasswordsException : Exception
+    {
+        public DiffrentPasswordsException(string password1, string password2) : base(password1 +" is different than " + password2)
+        {
+        }
+
+        public DiffrentPasswordsException() : base("Passed passwords are different")
+        {
         }
     }
 }
