@@ -25,11 +25,30 @@ namespace ClientApp.pages
     ///
     public partial class CommentPage : Page
     {
+        /// <summary>
+        /// Keep information abouit previous page.
+        /// </summary>
         readonly Page previousPage;
+        /// <summary>
+        /// Current comment.
+        /// </summary>
         readonly Comment comment;
+        /// <summary>
+        /// Comment's user.
+        /// </summary>
         User author;
+        /// <summary>
+        /// Comment's joke.
+        /// </summary>
         Joke joke;
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
+        public CommentPage()
+        {
+            InitializeComponent();
+        }
         public CommentPage(Comment comment, Page previousPage)
         {
             this.comment = comment;
@@ -41,6 +60,9 @@ namespace ClientApp.pages
             FindJoke();
         }
 
+        /// <summary>
+        /// Send finding joke http request and comlpetes the controls.
+        /// </summary>
         async private void FindJoke()
         {
             try
@@ -59,6 +81,9 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Send finding user http reuqest and completes the control.
+        /// </summary>
         async private void FindUser()
         {
             try
@@ -77,11 +102,11 @@ namespace ClientApp.pages
             }
         }
 
-        public CommentPage()
-        {
-            InitializeComponent();
-        }
-
+        /// <summary>
+        /// Navigate do previous page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(previousPage);
