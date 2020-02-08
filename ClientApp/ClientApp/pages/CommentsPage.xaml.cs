@@ -24,7 +24,9 @@ namespace ClientApp.pages
     /// </summary>
     public partial class CommentsPage : Page
     {
-
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public CommentsPage()
         {
@@ -58,19 +60,30 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Open detail page about comment passed in arguments.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="c">Comment. Detail page will be opened about it.</param>
         private void CommentButton_Click(object sender, RoutedEventArgs args, Comment c)
         {
             CommentPage commentPage = new CommentPage(c, this);
             NavigationService.Navigate(commentPage);
         }
 
+        /// <summary>
+        /// Get text from SearchTextBox and send searching http reuqest. Result will fill controls.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 ScrollContentWrapPanel.Children.RemoveRange(4, ScrollContentWrapPanel.Children.Count - 4);
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("https://localhost:44377/api/comments/search/" + SearchTextBox.Text);
+                HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "comments/search/" + SearchTextBox.Text);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -93,6 +106,12 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Search action when enter is pressed when focus on SearchTextBox"
+        /// </summary>
+        /// <seealso cref="CommentsPage.SearchButton_Click"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
