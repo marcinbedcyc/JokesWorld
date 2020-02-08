@@ -13,15 +13,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Server
 {
+    /// <summary>
+    /// Main program's class.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Start server as windows service. Create EventLog if doesn't exist.
+        /// </summary>
+        /// <param name="args">Program's arguments.</param>
         public static void Main(string[] args)
         {
             string source = "JokesWorldSource";
             string log = "JokesWorldLog";            
             if (!EventLog.SourceExists(source)) { EventLog.CreateEventSource(source, log );}
 
-            //CreateHostBuilder(args).Build().Run();
             var isService = !(Debugger.IsAttached || args.Contains("--console"));
             var pathToContentRoot = Directory.GetCurrentDirectory();
             var webHostArgs = args.Where(arg => arg != "--console").ToArray();
