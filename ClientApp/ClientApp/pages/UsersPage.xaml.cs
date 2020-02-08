@@ -25,6 +25,9 @@ namespace ClientApp
     /// </summary>
     public partial class UsersPage : Page
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public UsersPage()
         {
@@ -32,17 +35,34 @@ namespace ClientApp
             Reload();
         }
 
+        /// <summary>
+        /// Navigate to user's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="user">User. Detail page will be opened about it.</param>
         private void UserButton_Click(object sender, RoutedEventArgs e, User user)
         {
             UserPage userPage = new UserPage(user, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(userPage);
         }
 
+        /// <summary>
+        /// Refresh information on page.
+        /// </summary>
+        /// <seealso cref="UsersPage.Reload"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             Reload();
         }
 
+        /// <summary>
+        /// Get text from SearchTextBox and send searching http reuqest. Result will fill controls.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -86,6 +106,9 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Refresh information on page. Send http request to get all available users.
+        /// </summary>
         async void Reload()
         {
             ScrollContentWrapPanel.Children.RemoveRange(5, ScrollContentWrapPanel.Children.Count - 5);
@@ -126,6 +149,13 @@ namespace ClientApp
                 MessageBox.Show(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Search action when enter is pressed when focus on SearchTextBox.
+        /// </summary>
+        /// <seealso cref="UsersPage.SearchButton_Click"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
