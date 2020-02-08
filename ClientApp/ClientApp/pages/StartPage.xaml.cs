@@ -25,6 +25,9 @@ namespace ClientApp
     /// </summary>
     public partial class StartPage : Page
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public StartPage(User user)
         {
@@ -34,6 +37,9 @@ namespace ClientApp
             RefreshButton_Click(null, null);
         }
 
+        /// <summary>
+        /// Refresh information on page. Send http request to get information.
+        /// </summary>
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             GetLastJokes();
@@ -42,6 +48,9 @@ namespace ClientApp
             GetMyLastJoke();
         }
 
+        /// <summary>
+        /// Seng http request to get the newest jokes and put information in controls.
+        /// </summary>
         private async void GetLastJokes()
         {
             try
@@ -69,6 +78,9 @@ namespace ClientApp
                 MessageBox.Show(ex.Message);
             }
         }
+        /// <summary>
+        /// Seng http request to get the newest comments and put information in controls.
+        /// </summary>
         private async void GetLastComments()
         {
             try
@@ -97,18 +109,33 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Navigate to joke's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="j">Joke. Detail page will be opened about it.</param>
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke j)
         {
             JokePage jokePage = new JokePage(j, this, this.CurrentLoggedInUser);
             NavigationService.Navigate(jokePage);
         }
 
+        /// <summary>
+        /// Navigate to comment's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="c">Comment. Detail page will be opened about it.</param>
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment c)
         {
             CommentPage commentPage = new CommentPage(c, this);
             NavigationService.Navigate(commentPage);
         }
 
+        /// <summary>
+        /// Send http request to get the latest user's comment and put information in controls.
+        /// </summary>
         private async void GetMyLastComment()
         {
             try
@@ -132,6 +159,9 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Send http request to get the latest user's joke and put information in controls.
+        /// </summary>
         private async void GetMyLastJoke()
         {
             try
