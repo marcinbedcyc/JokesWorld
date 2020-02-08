@@ -24,10 +24,25 @@ namespace ClientApp.pages
     /// </summary>
     public partial class JokePage : Page
     {
+        /// <summary>
+        /// Current joke.
+        /// </summary>
         readonly Joke joke;
+        /// <summary>
+        /// Joke's author.
+        /// </summary>
         User author;
+        /// <summary>
+        /// Joke's comments;
+        /// </summary>
         List<Comment> comments;
+        /// <summary>
+        /// Keep information abouit previous page.
+        /// </summary>
         readonly Page previousPage;
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public JokePage(Joke joke, Page previousPage, User user)
         {
@@ -47,6 +62,9 @@ namespace ClientApp.pages
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Send finding user http request and completes the control.
+        /// </summary>
         async private  void FindUser()
         {
             try
@@ -65,6 +83,9 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Send finding joke's comments http request and completes the controls.
+        /// </summary>
         async private void FindComments()
         {
             try
@@ -100,17 +121,33 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Navigate comment's detail page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="c">Comment.Detail page will be opened about it.</param>
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment c)
         {
             CommentPage commentPage = new CommentPage(c, this);
             NavigationService.Navigate(commentPage);
         }
 
+        /// <summary>
+        /// Navigate to previous page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(previousPage);
         }
 
+        /// <summary>
+        /// Adding comment to joke. Send adding comment to joke http reuqest to server.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void AddCommentButton_Click(object sender, RoutedEventArgs e)
         {
             if (AddCommentTextBox.Text.Trim().Equals("")) { MessageBox.Show("Komentarz nie może być pusty!"); return; }
