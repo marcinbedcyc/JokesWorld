@@ -27,6 +27,9 @@ namespace ClientApp.pages
     public partial class RegisterPage : Page
     {
 
+        /// <summary>
+        /// Keep information abouit previous page.
+        /// </summary>
         readonly Page previousPage;
         public RegisterPage(Page previous)
         {
@@ -34,11 +37,22 @@ namespace ClientApp.pages
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Exit application.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Send http request to add new user to db. Before sending checking is form is filled properly (every text input is filled in, check if nickname and
+        /// e-mail are unique and check if password and repeated password are the same).
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             HttpClient client = new HttpClient();
@@ -54,16 +68,16 @@ namespace ClientApp.pages
             {
                 MessageBox.Show(ex.ToString());
             }
-            if (EmailTextBox.Text.Trim().Equals("")) { MessageBox.Show("Nie podano adresu e-mail!"); return; }
-            if (NicknameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Nie podano nickname'u!"); return; }
-            if (!IsValidEMail(EmailTextBox.Text)) { MessageBox.Show("Nie poprawny adres e-mail!"); return; }
-            if (users.Where(u => u.Nickname.Equals(NicknameTextBox.Text)).Any()) { MessageBox.Show("Użytkownik o podanym loginie już istnieje!"); return; }
-            if (users.Where(u => u.Email.Equals(EmailTextBox.Text)).Any()) { MessageBox.Show("Użytkownik o podanym adresie e-mail już istnieje!"); return; }
-            if (NameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Nie podano imienia!"); return; }
-            if (SurnameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Nie podano nazwiska!"); return; }
-            if (PasswordField.Password.Trim().Equals("")) { MessageBox.Show("Nie podano hasła!"); return; }
-            if (RepeatPasswordField.Password.Trim().Equals("")) { MessageBox.Show("Nie podano powtórzonego hasła!"); return; }
-            if (!PasswordField.Password.Equals(RepeatPasswordField.Password)) { MessageBox.Show("Podane hasła różnią się!"); return; }
+
+            try
+            {
+                UserFormUtils.CheckForm(NameTextBox.Text.Trim(), SurnameTextBox.Text.Trim(), EmailTextBox.Text.Trim(), NicknameTextBox.Text.Trim(), PasswordField.Password.Trim(), RepeatPasswordField.Password.Trim(), users);
+            }
+            catch (EmptyFormException) { MessageBox.Show("Pozostawiono puste pole!"); return; }
+            catch (NicknameAlredyUsedException) { MessageBox.Show("Użytkownik o podanym loginie już istnieje!"); return; }
+            catch (NotCorrectEmailException) { MessageBox.Show("Nie poprawny adres e-mail!"); return; }
+            catch (EmailAlredyUsedException) { MessageBox.Show("Użytkownik o podanym adresie e-mail już istnieje!"); return; }
+            catch (DiffrentPasswordsException) { MessageBox.Show("Podane hasła różnią się!"); return; }
             
 
             User user = new User
@@ -92,23 +106,14 @@ namespace ClientApp.pages
             }
         }
 
+        /// <summary>
+        /// Navigate to login page.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(previousPage);
-        }
-
-        private bool IsValidEMail(string emailaddress)
-        {
-            try
-            {
-                MailAddress m = new MailAddress(emailaddress);
-
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
         }
     }
 }
