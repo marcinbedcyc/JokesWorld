@@ -26,6 +26,9 @@ namespace ClientApp
     /// </summary>
     public partial class SettingsPage : Page
     {
+        /// <summary>
+        /// Current logged user in application.
+        /// </summary>
         public User CurrentLoggedInUser { get; set; }
         public SettingsPage(User user)
         {
@@ -45,6 +48,11 @@ namespace ClientApp
             ReapeatPasswordBox.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Send http request to server to save user's data when everything is filled in corectly.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private async void SaveChangeButton_Click(object sender, RoutedEventArgs e)
         {
             HttpClient client = new HttpClient();
@@ -61,12 +69,14 @@ namespace ClientApp
                 MessageBox.Show(ex.ToString());
             }
 
-            if (NameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z imieniem!"); return; }
-            if (SurnameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z nazwiskiem!"); return; }
-            if (NicknameTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z nickname!"); return; }
-            if (EMailTextBox.Text.Trim().Equals("")) { MessageBox.Show("Puste pole z e-mail'em!"); return; }
-            if( users.Where(u => u.Nickname.Equals(NicknameTextBox.Text)).Any() && !NicknameTextBox.Text.Equals(CurrentLoggedInUser.Nickname) ) { MessageBox.Show("Nickname zajęty"); return; }
-            if (users.Where(u => u.Email.Equals(EMailTextBox.Text)).Any() && !EMailTextBox.Text.Equals(CurrentLoggedInUser.Email)) { MessageBox.Show("Email zajęty"); return; }
+            try
+            {
+                UserFormUtils.CheckForm(NameTextBox.Text.Trim(), SurnameTextBox.Text.Trim(), EMailTextBox.Text.Trim(), NicknameTextBox.Text.Trim(), "password", "password", users);
+            }
+            catch (EmptyFormException) { MessageBox.Show("Pozostawiono puste pole!"); return; }
+            catch (NicknameAlredyUsedException) { MessageBox.Show("Użytkownik o podanym loginie już istnieje!"); return; }
+            catch (NotCorrectEmailException) { MessageBox.Show("Nie poprawny adres e-mail!"); return; }
+            catch (EmailAlredyUsedException) { MessageBox.Show("Użytkownik o podanym adresie e-mail już istnieje!"); return; }
             if (!OldPasswordBox.Password.Trim().Equals(""))
             {
                 if (!BCrypt.Net.BCrypt.Verify(OldPasswordBox.Password, CurrentLoggedInUser.Password)) { MessageBox.Show("Podane hasło jest nieprawidłowe!"); return; }
@@ -103,6 +113,9 @@ namespace ClientApp
             MessageBox.Show("Dane zostały zmienione" + NewPasswordBox.Password);
         }
 
+        /// <summary>
+        /// Send http request to server to get all current logged in user's comment.
+        /// </summary>
         async private void GetComments()
         {
             try
@@ -129,6 +142,9 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Send http request to server to get all current logged in user's joke.
+        /// </summary>
         async private void GetJokes()
         {
             try
@@ -155,20 +171,38 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Open new editing window to change joke's data.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="joke">Joke. Editing window will contain info about it.</param>
         private void JokeButton_Click(object sender, RoutedEventArgs e, Joke joke)
         {
-            JokeEditWindow newWindow1 = new JokeEditWindow(CurrentLoggedInUser, joke);
-            newWindow1.Closing += (s, args) => { Reload(); };
-            newWindow1.Show();
+
+            JokeEditWindow jokeEditWindow = new JokeEditWindow(CurrentLoggedInUser, joke);
+            jokeEditWindow.Closing += (s, args) => { Reload(); };
+            jokeEditWindow.Show();
         }
 
+        /// <summary>
+        /// Open new editing window to change comment's data.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
+        /// <param name="comment">Comment. Editing window will contain info about it.</param>
         private void CommentButton_Click(object sender, RoutedEventArgs e, Comment comment)
         {
-            CommentEditWindow newWindow1 = new CommentEditWindow(CurrentLoggedInUser, comment);
-            newWindow1.Closing += (s, args) => { Reload(); };
-            newWindow1.Show();
+            CommentEditWindow commentEditWindow = new CommentEditWindow(CurrentLoggedInUser, comment);
+            commentEditWindow.Closing += (s, args) => { Reload(); };
+            commentEditWindow.Show();
         }
 
+        /// <summary>
+        /// Set enable/disable PasswordBoxes depends on type in correctly old one.
+        /// </summary>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="args">Event Data.</param>
         private void PasswordChangedHandler(Object sender, RoutedEventArgs args)
         {
             if (BCrypt.Net.BCrypt.Verify(OldPasswordBox.Password, CurrentLoggedInUser.Password)){
@@ -183,6 +217,9 @@ namespace ClientApp
             }
         }
 
+        /// <summary>
+        /// Reset information about user's jokes and comments.
+        /// </summary>
         private void Reload()
         {
             CommentsStackPanel.Children.Clear();
@@ -191,6 +228,12 @@ namespace ClientApp
             GetJokes();
         }
 
+        /// <summary>
+        /// Reset TextBoxes and get refresh information on page.
+        /// </summary>
+        /// <seealso cref="SettingsPage.Reload"/>
+        /// <param name="sender">The control/object that raised the event.</param>
+        /// <param name="e">Event Data.</param>
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             NameTextBox.Text = this.CurrentLoggedInUser.Name;
