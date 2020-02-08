@@ -7,18 +7,36 @@ using System.Text;
 
 namespace DbConnection
 {
+    /// <summary>
+    /// Database's context.
+    /// </summary>
     public class MyDbContext : DbContext
     {
+        /// <summary>
+        /// Users' set from db.
+        /// </summary>
         public DbSet<User> Users { get; set; }
+        /// <summary>
+        /// Jokes' set from db.
+        /// </summary>
         public DbSet<Joke> Jokes { get; set; }
+        /// <summary>
+        /// Comments' set from db.
+        /// </summary>
         public DbSet<Comment> Comments { get; set; }
 
+        /// <summary>
+        /// Configure connection to db. In this case establish connection with file db 'mydb.db' (using Sqlite).
+        /// </summary>
+        /// <param name="options">Addtional option to configuration.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        //=> options.UseSqlite("Data Source=C:\\Users\\Marcin\\Desktop\\JokesWorld\\Server\\Server\\mydb.db");
-        => options.UseSqlite("Data Source=mydb.db");
-        //=> options.UseSqlite("Data Source=" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\") + "\\mydb.db");
-        //=> options.UseSqlite("Data Source=:memory:");
+        => options.UseSqlite("Data Source=mydb.db"); // Debug mode
+        //=> options.UseSqlite("Data Source=" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\") + "\\mydb.db");  // When run as windows service
 
+        /// <summary>
+        /// Set unique for some attributes in entities. Add relation between entitites, set action on delete. 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.UseSerialColumns();
