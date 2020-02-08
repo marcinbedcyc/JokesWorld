@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "ClientApp\Clie
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ClientAppSetup", "ClientAppSetup\ClientAppSetup.vdproj", "{AF2AD661-5394-47EA-A648-6523EDBF9912}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{E604314E-BD99-4CA6-974E-771C2B7F3DEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{0CE773C9-99A4-48D4-9C24-9FA572F738DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF2AD661-5394-47EA-A648-6523EDBF9912}.Debug|Any CPU.ActiveCfg = Debug
 		{AF2AD661-5394-47EA-A648-6523EDBF9912}.Release|Any CPU.ActiveCfg = Release
+		{E604314E-BD99-4CA6-974E-771C2B7F3DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E604314E-BD99-4CA6-974E-771C2B7F3DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E604314E-BD99-4CA6-974E-771C2B7F3DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E604314E-BD99-4CA6-974E-771C2B7F3DEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
