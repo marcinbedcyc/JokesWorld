@@ -394,7 +394,7 @@ namespace ClientApp
         {
             if (name.Equals("") || surname.Equals("") || email.Equals("") || nickname.Equals("") || password.Equals("") || password2.Equals(""))
                 throw new EmptyFormException();
-            if (users.Where(u => u.Nickname.Equals(nickname)).Any())
+            if (users.Count != 0 && users.Where(u => u.Nickname.Equals(nickname)).Any())
                 throw new NicknameAlredyUsedException(nickname);
             if (!IsValidEMail(email))
                 throw new NotCorrectEmailException(email);

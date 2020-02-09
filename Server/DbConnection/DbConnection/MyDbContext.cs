@@ -31,7 +31,7 @@ namespace DbConnection
         /// <param name="options">Addtional option to configuration.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=mydb.db"); // Debug mode
-        //=> options.UseSqlite("Data Source=" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\", @"\\") + "\\mydb.db");  // When run as windows service
+        //=> options.UseSqlite("Data Source=" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName).ToString().Replace(@"\\", @"\") + "\\mydb.db");  // When run as windows service
 
         /// <summary>
         /// Set unique for some attributes in entities. Add relation between entitites, set action on delete. 

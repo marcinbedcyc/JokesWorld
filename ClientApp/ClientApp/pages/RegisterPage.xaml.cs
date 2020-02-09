@@ -60,7 +60,6 @@ namespace ClientApp.pages
             try
             {
                 HttpResponseMessage response = await client.GetAsync(ConfigurationManager.AppSettings["ServerURL"] + "users");
-                response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 users = JsonConvert.DeserializeObject<List<User>>(responseBody);
             }
@@ -68,7 +67,7 @@ namespace ClientApp.pages
             {
                 MessageBox.Show(ex.ToString());
             }
-
+            if (users is null) users = new List<User>();
             try
             {
                 UserFormUtils.CheckForm(NameTextBox.Text.Trim(), SurnameTextBox.Text.Trim(), EmailTextBox.Text.Trim(), NicknameTextBox.Text.Trim(), PasswordField.Password.Trim(), RepeatPasswordField.Password.Trim(), users);
@@ -90,14 +89,13 @@ namespace ClientApp.pages
             };
 
             var json = JsonConvert.SerializeObject(user, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            MessageBox.Show(json);
             try
             {
                 HttpContent content = new StringContent(json);
                 content.Headers.Remove("Content-Type");
                 content.Headers.Add("Content-Type", "application/json");
                 HttpResponseMessage response = await client.PostAsync(ConfigurationManager.AppSettings["ServerURL"] + "users", content);
-                response.EnsureSuccessStatusCode();
+                MessageBox.Show("Utworzono uzytkownika o nicku: " + user.Nickname);
                 NavigationService.Navigate(previousPage);
             }
             catch (HttpRequestException ex)
